@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 function App() {
   const [timetable, setTimetable] = useState([]);
+  const [venues, setVenues] = useState({ KDLT: 100, NFLT: 250, CBN: 1000, FLT: 1200 });
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -37,7 +38,6 @@ function App() {
   };
 
   const allocateVenues = (data) => {
-    const venues = { KDLT: 100, NFLT: 250, CBN: 1000, FLT: 1200 };
     const venueBookings = {
       Monday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
       Tuesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
@@ -70,6 +70,16 @@ function App() {
     });
 
     return allocatedTimetable;
+  };
+
+  const addVenue = () => {
+    const venueName = prompt('Enter the venue name:');
+    if (venueName) {
+      const capacity = parseInt(prompt('Enter the venue capacity:'));
+      if (!isNaN(capacity)) {
+        setVenues((prevVenues) => ({ ...prevVenues, [venueName]: capacity }));
+      }
+    }
   };
 
   function export2Word(element, filename = '') {
@@ -114,36 +124,58 @@ function App() {
       <p>Please upload the CSV file:</p>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
 
+      <div>
+        <h2>Available Venues</h2>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+          <thead>
+            <tr>
+              <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Venue</th>
+              <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Capacity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(venues).map(([venue, capacity]) => (
+              <tr key={venue}>
+                <td style={{ padding: '10px', border: '1px solid #ccc' }}>{venue}</td>
+                <td style={{ padding: '10px', border: '1px solid #ccc' }}>{capacity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={addVenue}>Add Venue</button>
+      </div>
+
       {timetable.length > 0 && (
         <div id="content">
-          <h2>Examination Timetable</h2>
-          <table className="timetable">
+          <h2>Course Management</h2>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }} className="timetable">
             <thead>
               <tr>
-                <th>Course</th>
-                <th>Supervisors</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Day</th>
-                <th>Venue</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Course</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Supervisors</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Start Time</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>End Time</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Day</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Venue</th>
               </tr>
             </thead>
             <tbody>
               {timetable.map((row, index) => (
                 <tr key={index}>
-                  <td>{row.course}</td>
-                  <td>{row.supervisors}</td>
-                  <td>{row.start_time}</td>
-                  <td>{row.end_time}</td>
-                  <td>{row.day}</td>
-                  <td>{row.venue}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.course}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.supervisors}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.start_time}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.end_time}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.day}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.venue}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
-      <button onClick={() => {export2Word('content', 'Timetable.docx')}}>Export to DOCX</button>
+
+      <button onClick={() => { export2Word('content', 'Timetable') }}>Export to DOCX</button>
     </div>
   );
 }
