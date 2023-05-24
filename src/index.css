@@ -1,0 +1,301 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;500;600;700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* CSS for body text */
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* CSS for main heading */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* CSS for section headings */
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* CSS for subsection headings */
+h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/*-----------------------------------*\
+  #PRELOAD
+\*-----------------------------------*/
+
+.preload {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  transition: 500ms ease;
+}
+
+.preload > * {
+  transition: 250ms ease;
+}
+
+.preload.loaded > * {
+  opacity: 0;
+}
+
+.icon-svg {
+  display: block;
+  width: 80px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.preload.loaded {
+  transition-delay: 250ms;
+  transform: translateY(100%);
+}
+
+
+.container {
+  padding: 0 15px;
+}
+/*-----------------------------------*\
+  #HEADER
+\*-----------------------------------*/
+
+header {
+  position: fixed;
+  top: -90px;
+  left: 0;
+  width: 100%;
+  padding-block: 15px;
+  box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.5);
+  background: white;
+  transition: 0.25s ease-in-out;
+  z-index: 4;
+}
+
+header.active {
+  top: 0;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* CSS for upload button */
+.CSVReader-input {
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #5368b5;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CSVReader-input:hover,
+.CSVReader-input:focus {
+  background-color: #32438f;
+}
+
+/* CSS for add venue button */
+button {
+  display: block;
+  margin: 1rem auto 2rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #5368b5;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover,
+button:focus {
+  background-color: #32438f;
+}
+
+/* CSS for new venue form */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+input {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* CSS for Add Venue button */
+.link-button {
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: #5368b5;
+  border: 2px solid #5368b5;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.link-button:hover,
+.link-button:focus {
+  background-color: #5368b5;
+  color: #fff;
+}
+
+/* CSS for Delete button */
+.delete-button {
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: #e55353;
+  border: 2px solid #e55353;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+  background-color: #e55353;
+  color: #fff;
+}
+
+/* CSS for table */
+.table {
+  border-collapse: collapse;
+  margin: 1rem auto;
+  font-size: 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.table th {
+  font-weight: bold;
+  background-color: #5368b5;
+  color: #fff;
+  border-color: #5368b5;
+  text-align: center;
+  position: sticky;
+  top: 0;
+}
+
+.table td {
+  background-color: #fff;
+}
+
+.table tr:hover td {
+  background-color: #f2f7ff;
+}
+
+@media only screen and (max-width: 768px) {
+  /* CSS for mobile devices */
+
+  .CSVReader-input,
+  button,
+  input,
+  .table {
+    font-size: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+/* CSS for intro text */
+/* .intro {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+} */
+
+/* CSS for container */
+/* .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+} */
+
+/* CSS for form container */
+/* .form-container {
+  margin-bottom: 2rem;
+} */
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 980px;
+  }
+
+  header {
+    top: -120px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+
+  header {
+    padding-block: 25px;
+  }
+
+  header .container {
+    max-width: 1300px;
+  }
+}
+
+@media (min-width: 550px) {
+  /**
+   * REUSED STYLE
+   */
+
+  .container {
+    max-width: 500px;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 680px;
+  }
+}

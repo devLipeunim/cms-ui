@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0," />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="HandheldFriendly" content="true" />
+    <!--==================== Google SEO ======================-->
+    <meta
+      name="description"
+      content="Course Mangement System."
+    />
+    <meta name="keywords" content="Course Mangement System" />
+    <meta name="theme-color" content="#4b0082" />
+    <meta name="msapplication-navbutton-color" content="#4b0082" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="author" content="Lipeunim" />
+    <meta name="site_name" content="Course Mangement System" />
+    <meta property="og:title" content="Course Mangement System" />
+    <meta
+      property="og:image"
+      content="https://course-management-system.vercel.app/uiLogo.jpg"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="300" />
+    <meta property="og:image:height" content="300" />
+
+    <meta property="og:url" content="https://course-management-system.vercel.app/" />
+    <meta
+      property="og:description"
+      content="Course Management System."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--==================== FAV-ICON ======================-->
+    <link rel="apple-touch-icon" sizes="192x192" href="./src/assets/uiLogo.jpg" />
+    <link rel="icon" type="image/svg+xml" sizes="32x32" href="./src/assets/uiLogo.jpg" />
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="./src/assets/uiLogo.jpg" />
+    <link rel="shortcut icon" href="./src/assets/uiLogo.jpg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./src/index.css" />
+
+    <title>COURSE MANAGEMENT SYSTEM</title>
+  </head>
+  <body>
+    <div id="root">
+      <div class="preload" data-preaload>
+        <img src="./src/assets/uiLogo.jpg" class="icon-svg" alt="loader" />
+      </div>
+    </div>
+    <script>
+      const preloader = document.querySelector("[data-preaload]");
+
+      window.addEventListener("load", function () {
+        preloader.classList.add("loaded");
+        document.body.classList.add("loaded");
+      });
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
