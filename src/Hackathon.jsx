@@ -75,65 +75,101 @@ function App() {
     return allocatedTimetable;
   };
 
-  const generateDocx = () => {
-    const doc = new Document();
-    doc.addSection({
-      properties: {},
-      children: [
-        new Paragraph({
-          children: [
-            new TextRun('HACKATHON PROJECT (GROUP 5 (Participants))'),
-            new TextRun('\n'),
-            new TextRun(
-              '1. ANIAH MOSES LIPEUNIM (230890), 2. OGHENEKOHWO OGHENEMARO OGHENEVWOKE (230907), 3. SANGOGADE AYOMIDE EPHRAIM (223322), 4. OLUWATOLA ENOCH ADEBAYO (230919), 5. OLOWE ANTHONY OLUBOBA (230916)'
-            ),
-            new TextRun('\n'),
-            new TextRun('EXAMINATION TIMETABLE'),
-          ],
-        }),
-        new Table({
-          rows: [
-            new TableRow({
-              children: [
-                new TableCell({ children: [new Paragraph('Course')] }),
-                new TableCell({ children: [new Paragraph('Supervisors')] }),
-                new TableCell({ children: [new Paragraph('Start Time')] }),
-                new TableCell({ children: [new Paragraph('End Time')] }),
-                new TableCell({ children: [new Paragraph('Day')] }),
-                new TableCell({ children: [new Paragraph('Venue')] }),
-              ],
-            }),
-            ...timetable.map((row) =>
-              new TableRow({
-                children: [
-                  new TableCell({ children: [new Paragraph(row.course)] }),
-                  new TableCell({ children: [new Paragraph(row.supervisors)] }),
-                  new TableCell({ children: [new Paragraph(row.start_time)] }),
-                  new TableCell({ children: [new Paragraph(row.end_time)] }),
-                  new TableCell({ children: [new Paragraph(row.day)] }),
-                  new TableCell({ children: [new Paragraph(row.venue)] }),
-                ],
-              })
-            ),
-          ],
-        }),
-      ],
-    });
+//   const generateDocx = () => {
+//     const doc = new Document();
+//     doc.addSection({
+//       properties: {},
+//       children: [
+//         new Paragraph({
+//           children: [
+//             new TextRun('HACKATHON PROJECT (GROUP 5 (Participants))'),
+//             new TextRun('\n'),
+//             new TextRun(
+//               '1. ANIAH MOSES LIPEUNIM (230890), 2. OGHENEKOHWO OGHENEMARO OGHENEVWOKE (230907), 3. SANGOGADE AYOMIDE EPHRAIM (223322), 4. OLUWATOLA ENOCH ADEBAYO (230919), 5. OLOWE ANTHONY OLUBOBA (230916)'
+//             ),
+//             new TextRun('\n'),
+//             new TextRun('EXAMINATION TIMETABLE'),
+//           ],
+//         }),
+//         new Table({
+//           rows: [
+//             new TableRow({
+//               children: [
+//                 new TableCell({ children: [new Paragraph('Course')] }),
+//                 new TableCell({ children: [new Paragraph('Supervisors')] }),
+//                 new TableCell({ children: [new Paragraph('Start Time')] }),
+//                 new TableCell({ children: [new Paragraph('End Time')] }),
+//                 new TableCell({ children: [new Paragraph('Day')] }),
+//                 new TableCell({ children: [new Paragraph('Venue')] }),
+//               ],
+//             }),
+//             ...timetable.map((row) =>
+//               new TableRow({
+//                 children: [
+//                   new TableCell({ children: [new Paragraph(row.course)] }),
+//                   new TableCell({ children: [new Paragraph(row.supervisors)] }),
+//                   new TableCell({ children: [new Paragraph(row.start_time)] }),
+//                   new TableCell({ children: [new Paragraph(row.end_time)] }),
+//                   new TableCell({ children: [new Paragraph(row.day)] }),
+//                   new TableCell({ children: [new Paragraph(row.venue)] }),
+//                 ],
+//               })
+//             ),
+//           ],
+//         }),
+//       ],
+//     });
 
-    const packer = new Packer();
-    packer.toBlob(doc).then((blob) => {
-      saveAs(blob, 'exam_timetable.docx');
-    });
-  };
+//     const packer = new Packer();
+//     packer.toBlob(doc).then((blob) => {
+//       saveAs(blob, 'exam_timetable.docx');
+//     });
+//   };
+
+  function export2Word(element, filename = ''){
+     var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+     var postHtml = "</body></html>";
+     var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+ 
+     var blob = new Blob(['\ufeff', html], {
+         type: 'application/msword'
+     });
+     
+     // Specify link url
+     var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+     
+     // Specify file name
+     filename = filename?filename+'.doc':'document.doc';
+     
+     // Create download link element
+     var downloadLink = document.createElement("a");
+ 
+     document.body.appendChild(downloadLink);
+     
+     if(navigator.msSaveOrOpenBlob ){
+         navigator.msSaveOrOpenBlob(blob, filename);
+     }else{
+         // Create a link to the file
+         downloadLink.href = url;
+         
+         // Setting the file name
+         downloadLink.download = filename;
+         
+         //triggering the function
+         downloadLink.click();
+     }
+     
+     document.body.removeChild(downloadLink);
+ }
 
   return (
-    <div className='container_2'>
+    <div className='container_2' >
       <h1>Welcome to the Course Management System!</h1>
       <p>Please upload the CSV file:</p>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
 
       {timetable.length > 0 && (
-        <div>
+        <div id='content'>
           <h2>Examination Timetable</h2>
           <table>
             <thead>
@@ -159,9 +195,10 @@ function App() {
               ))}
             </tbody>
           </table>
-          <button onClick={generateDocx}>Export to DOCX</button>
+         
         </div>
       )}
+     <button onClick={() => {export2Word('content', 'Timetable.docx')}}>Export to DOCX</button>
     </div>
   );
 }
