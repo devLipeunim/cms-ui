@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Document, Paragraph, Table, TableCell, TableRow, TextRun } from 'docx';
-import { saveAs } from 'file-saver';
-import { Packer } from 'docx';
 
 function App() {
   const [timetable, setTimetable] = useState([]);
+  const [venues, setVenues] = useState({ KDLT: 100, NFLT: 250, CBN: 1000, FLT: 1200 });
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -40,7 +38,6 @@ function App() {
   };
 
   const allocateVenues = (data) => {
-    const venues = { KDLT: 100, NFLT: 250, CBN: 1000, FLT: 1200 };
     const venueBookings = {
       Monday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
       Tuesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
@@ -75,130 +72,110 @@ function App() {
     return allocatedTimetable;
   };
 
-//   const generateDocx = () => {
-//     const doc = new Document();
-//     doc.addSection({
-//       properties: {},
-//       children: [
-//         new Paragraph({
-//           children: [
-//             new TextRun('HACKATHON PROJECT (GROUP 5 (Participants))'),
-//             new TextRun('\n'),
-//             new TextRun(
-//               '1. ANIAH MOSES LIPEUNIM (230890), 2. OGHENEKOHWO OGHENEMARO OGHENEVWOKE (230907), 3. SANGOGADE AYOMIDE EPHRAIM (223322), 4. OLUWATOLA ENOCH ADEBAYO (230919), 5. OLOWE ANTHONY OLUBOBA (230916)'
-//             ),
-//             new TextRun('\n'),
-//             new TextRun('EXAMINATION TIMETABLE'),
-//           ],
-//         }),
-//         new Table({
-//           rows: [
-//             new TableRow({
-//               children: [
-//                 new TableCell({ children: [new Paragraph('Course')] }),
-//                 new TableCell({ children: [new Paragraph('Supervisors')] }),
-//                 new TableCell({ children: [new Paragraph('Start Time')] }),
-//                 new TableCell({ children: [new Paragraph('End Time')] }),
-//                 new TableCell({ children: [new Paragraph('Day')] }),
-//                 new TableCell({ children: [new Paragraph('Venue')] }),
-//               ],
-//             }),
-//             ...timetable.map((row) =>
-//               new TableRow({
-//                 children: [
-//                   new TableCell({ children: [new Paragraph(row.course)] }),
-//                   new TableCell({ children: [new Paragraph(row.supervisors)] }),
-//                   new TableCell({ children: [new Paragraph(row.start_time)] }),
-//                   new TableCell({ children: [new Paragraph(row.end_time)] }),
-//                   new TableCell({ children: [new Paragraph(row.day)] }),
-//                   new TableCell({ children: [new Paragraph(row.venue)] }),
-//                 ],
-//               })
-//             ),
-//           ],
-//         }),
-//       ],
-//     });
+  const addVenue = () => {
+    const venueName = prompt('Enter the venue name:');
+    if (venueName) {
+      const capacity = parseInt(prompt('Enter the venue capacity:'));
+      if (!isNaN(capacity)) {
+        setVenues((prevVenues) => ({ ...prevVenues, [venueName]: capacity }));
+      }
+    }
+  };
 
-//     const packer = new Packer();
-//     packer.toBlob(doc).then((blob) => {
-//       saveAs(blob, 'exam_timetable.docx');
-//     });
-//   };
+  function export2Word(element, filename = '') {
+    var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+    var postHtml = "</body></html>";
+    var html = preHtml + document.getElementById(element).innerHTML + postHtml;
 
-  function export2Word(element, filename = ''){
-     var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
-     var postHtml = "</body></html>";
-     var html = preHtml+document.getElementById(element).innerHTML+postHtml;
- 
-     var blob = new Blob(['\ufeff', html], {
-         type: 'application/msword'
-     });
-     
-     // Specify link url
-     var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
-     
-     // Specify file name
-     filename = filename?filename+'.doc':'document.doc';
-     
-     // Create download link element
-     var downloadLink = document.createElement("a");
- 
-     document.body.appendChild(downloadLink);
-     
-     if(navigator.msSaveOrOpenBlob ){
-         navigator.msSaveOrOpenBlob(blob, filename);
-     }else{
-         // Create a link to the file
-         downloadLink.href = url;
-         
-         // Setting the file name
-         downloadLink.download = filename;
-         
-         //triggering the function
-         downloadLink.click();
-     }
-     
-     document.body.removeChild(downloadLink);
- }
+    var blob = new Blob(['\ufeff', html], {
+      type: 'application/msword',
+    });
+
+    // Specify link url
+    var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+
+    // Specify file name
+    filename = filename ? filename + '.doc' : 'document.doc';
+
+    // Create download link element
+    var downloadLink = document.createElement('a');
+
+    document.body.appendChild(downloadLink);
+
+    if (navigator.msSaveOrOpenBlob) {
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      // Create a link to the file
+      downloadLink.href = url;
+
+      // Setting the file name
+      downloadLink.download = filename;
+
+      //triggering the function
+      downloadLink.click();
+    }
+
+    document.body.removeChild(downloadLink);
+  }
 
   return (
-    <div className='container_2' >
+    <div className="container_2">
       <h1>Welcome to the Course Management System!</h1>
       <p>Please upload the CSV file:</p>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
 
+      <div>
+        <h2>Available Venues</h2>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+          <thead>
+            <tr>
+              <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Venue</th>
+              <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Capacity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(venues).map(([venue, capacity]) => (
+              <tr key={venue}>
+                <td style={{ padding: '10px', border: '1px solid #ccc' }}>{venue}</td>
+                <td style={{ padding: '10px', border: '1px solid #ccc' }}>{capacity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={addVenue}>Add Venue</button>
+      </div>
+
       {timetable.length > 0 && (
-        <div id='content'>
-          <h2>Examination Timetable</h2>
-          <table>
+        <div id="content">
+          <h2>Course Management</h2>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }} className="timetable">
             <thead>
               <tr>
-                <th>Course</th>
-                <th>Supervisors</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Day</th>
-                <th>Venue</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Course</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Supervisors</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Start Time</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>End Time</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Day</th>
+                <th style={{ padding: '10px', border: '1px solid #ccc', backgroundColor: '#f2f2f2' }}>Venue</th>
               </tr>
             </thead>
             <tbody>
               {timetable.map((row, index) => (
                 <tr key={index}>
-                  <td>{row.course}</td>
-                  <td>{row.supervisors}</td>
-                  <td>{row.start_time}</td>
-                  <td>{row.end_time}</td>
-                  <td>{row.day}</td>
-                  <td>{row.venue}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.course}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.supervisors}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.start_time}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.end_time}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.day}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ccc' }}>{row.venue}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-         
         </div>
       )}
-     <button onClick={() => {export2Word('content', 'Timetable.docx')}}>Export to DOCX</button>
+
+      <button onClick={() => { export2Word('content', 'Timetable') }}>Export to DOCX</button>
     </div>
   );
 }
