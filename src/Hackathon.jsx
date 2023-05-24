@@ -127,7 +127,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='container_2'>
       <h1>Welcome to the Course Management System!</h1>
       <p>Please upload the CSV file:</p>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
