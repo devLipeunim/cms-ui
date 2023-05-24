@@ -69,6 +69,50 @@ h3 {
   transform: translateY(100%);
 }
 
+.container_2 {
+  margin-top: 120px;
+  padding: 20px;
+  text-align: center;
+}
+
+.timetable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.timetable th,
+.timetable td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.timetable th {
+  background-color: #f2f2f2;
+}
+
+.timetable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.timetable tr:hover {
+  background-color: #eaeaea;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 
 .container {
   padding: 0 15px;
@@ -121,7 +165,7 @@ header .container {
 }
 
 /* CSS for add venue button */
-button {
+/* button {
   display: block;
   margin: 1rem auto 2rem;
   font-size: 1.5rem;
@@ -137,7 +181,7 @@ button {
 button:hover,
 button:focus {
   background-color: #32438f;
-}
+} */
 
 /* CSS for new venue form */
 label {
@@ -237,7 +281,7 @@ input {
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Document, Paragraph, Table, TableCell, TableRow, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
-import * as docx from 'docx';
+import { Packer } from 'docx';
 
 function App() {
   const [timetable, setTimetable] = useState([]);
@@ -56,10 +56,8 @@ function App() {
       for (const venue in venues) {
         if (capacity <= venues[venue]) {
           const bookingsForVenue = venueBookings[day][venue];
-          if (
-            !bookingsForVenue ||
-            bookingsForVenue[bookingsForVenue.length - 1].end_time <= start_time
-          ) {
+          bookingsForVenue.sort((a, b) => a.end_time - b.end_time);
+          if (!bookingsForVenue.length || bookingsForVenue[bookingsForVenue.length - 1].end_time <= start_time) {
             availableVenues.push(venue);
           }
         }
@@ -86,7 +84,9 @@ function App() {
           children: [
             new TextRun('HACKATHON PROJECT (GROUP 5 (Participants))'),
             new TextRun('\n'),
-            new TextRun('1. ANIAH MOSES LIPEUNIM (230890), 2. OGHENEKOHWO OGHENEMARO OGHENEVWOKE (230907), 3. SANGOGADE AYOMIDE EPHRAIM (223322), 4. OLUWATOLA ENOCH ADEBAYO (230919), 5. OLOWE ANTHONY OLUBOBA (230916)'),
+            new TextRun(
+              '1. ANIAH MOSES LIPEUNIM (230890), 2. OGHENEKOHWO OGHENEMARO OGHENEVWOKE (230907), 3. SANGOGADE AYOMIDE EPHRAIM (223322), 4. OLUWATOLA ENOCH ADEBAYO (230919), 5. OLOWE ANTHONY OLUBOBA (230916)'
+            ),
             new TextRun('\n'),
             new TextRun('EXAMINATION TIMETABLE'),
           ],
@@ -120,14 +120,15 @@ function App() {
       ],
     });
 
-    const buffer = docx.Packer.toBuffer(doc);
-    saveAs(new Blob([buffer]), 'exam_timetable.docx');
+    const packer = new Packer();
+    packer.toBlob(doc).then((blob) => {
+      saveAs(blob, 'exam_timetable.docx');
+    });
   };
-
 
   return (
     <div>
-      <h1>Welcome to Course Management System!</h1>
+      <h1>Welcome to the Course Management System!</h1>
       <p>Please upload the CSV file:</p>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
 
