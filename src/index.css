@@ -10,11 +10,14 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
+  justify-content: center;
+  align-items: center;
 }
 
 /* CSS for main heading */
 h1 {
   font-size: 3rem;
+  margin-top: 1rem;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -22,13 +25,17 @@ h1 {
 /* CSS for section headings */
 h2 {
   font-size: 2.5rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 /* CSS for subsection headings */
 h3 {
   font-size: 2rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 /*-----------------------------------*\
@@ -59,9 +66,9 @@ h3 {
 
 .icon-svg {
   display: block;
-  width: 80px;
+  width: 50px;
   height: auto;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .preload.loaded {
@@ -70,10 +77,16 @@ h3 {
 }
 
 .container_2 {
-  margin-top: 120px;
+  margin-top: 60px;
   padding: 20px;
   text-align: center;
 }
+
+/* .addVenues{
+  display: block;
+  align-items: center;
+  justify-content: center;
+} */
 
 .timetable {
   width: 100%;
@@ -102,7 +115,7 @@ h3 {
 button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: indigo;
   color: white;
   border: none;
   border-radius: 4px;
@@ -110,7 +123,14 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: gold;
+}
+
+.aButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 
@@ -143,45 +163,6 @@ header .container {
   align-items: center;
 }
 
-/* CSS for upload button */
-.CSVReader-input {
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #5368b5;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.CSVReader-input:hover,
-.CSVReader-input:focus {
-  background-color: #32438f;
-}
-
-/* CSS for add venue button */
-/* button {
-  display: block;
-  margin: 1rem auto 2rem;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #5368b5;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-button:hover,
-button:focus {
-  background-color: #32438f;
-} */
 
 /* CSS for new venue form */
 label {
@@ -197,6 +178,7 @@ input {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: none;
+  /* margin-left: 50%; */
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -281,7 +263,10 @@ input {
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
   }
 }
 
