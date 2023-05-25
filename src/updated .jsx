@@ -270,7 +270,7 @@ const Updated = () => {
           />
           <input
             type="text"
-            placeholder="Supervisors"
+            placeholder="Lecturer"
             value={course.supervisors}
             onChange={(e) =>
               handleCourseChange(index, "supervisors", e.target.value)
