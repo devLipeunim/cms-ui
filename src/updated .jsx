@@ -105,6 +105,12 @@ const Updated = () => {
     setNewVenue({ name, capacity });
   };
 
+  const handleVenueRemove = (index) => {
+    const updatedVenues = [...venues];
+    updatedVenues.splice(index, 1);
+    setVenues(updatedVenues);
+  };
+
   const updateVenue = () => {
     const updatedVenues = [...venues];
     updatedVenues[editIndex] = {
@@ -227,7 +233,12 @@ const Updated = () => {
                     {venue.capacity}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    <button onClick={() => editVenue(index)}>Edit</button>
+                    <div className="aButton">
+                      <button onClick={() => editVenue(index)}>Edit</button>
+                      <button onClick={() => handleVenueRemove(index)}>
+                        Remove
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -237,20 +248,23 @@ const Updated = () => {
       )}
       <div className="addVenues">
         <h3>Add/Edit Venue</h3>
-        <input
-          type="text"
-          placeholder="Venue Name"
-          value={newVenue.name}
-          onChange={(e) => setNewVenue({ ...newVenue, name: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Capacity"
-          value={newVenue.capacity}
-          onChange={(e) =>
-            setNewVenue({ ...newVenue, capacity: parseInt(e.target.value) })
-          }
-        />
+        <div className="courseForm">
+          <input
+            type="text"
+            placeholder="Venue Name"
+            value={newVenue.name}
+            onChange={(e) => setNewVenue({ ...newVenue, name: e.target.value })}
+          />
+          <input
+            type="number"
+            placeholder="Capacity"
+            value={newVenue.capacity}
+            onChange={(e) =>
+              setNewVenue({ ...newVenue, capacity: parseInt(e.target.value) })
+            }
+          />
+        </div>
+
         {editIndex !== -1 ? (
           <button onClick={updateVenue}>Update Venue</button>
         ) : (
@@ -260,52 +274,54 @@ const Updated = () => {
       <h3>Add Course</h3>
       {courseData.map((course, index) => (
         <div key={index}>
-          <input
-            type="text"
-            placeholder="Course"
-            value={course.course}
-            onChange={(e) =>
-              handleCourseChange(index, "course", e.target.value)
-            }
-          />
-          <input
-            type="text"
-            placeholder="Lecturer"
-            value={course.supervisors}
-            onChange={(e) =>
-              handleCourseChange(index, "supervisors", e.target.value)
-            }
-          />
-          <input
-            type="text"
-            placeholder="Start Time"
-            value={course.start_time}
-            onChange={(e) =>
-              handleCourseChange(index, "start_time", e.target.value)
-            }
-          />
-          <input
-            type="text"
-            placeholder="End Time"
-            value={course.end_time}
-            onChange={(e) =>
-              handleCourseChange(index, "end_time", e.target.value)
-            }
-          />
-          <input
-            type="text"
-            placeholder="Day"
-            value={course.day}
-            onChange={(e) => handleCourseChange(index, "day", e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Population of Students"
-            value={course.capacity}
-            onChange={(e) =>
-              handleCourseChange(index, "capacity", parseInt(e.target.value))
-            }
-          />
+          <div className="courseForm">
+            <input
+              type="text"
+              placeholder="Course"
+              value={course.course}
+              onChange={(e) =>
+                handleCourseChange(index, "course", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="Lecturer"
+              value={course.supervisors}
+              onChange={(e) =>
+                handleCourseChange(index, "supervisors", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="Start Time"
+              value={course.start_time}
+              onChange={(e) =>
+                handleCourseChange(index, "start_time", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="End Time"
+              value={course.end_time}
+              onChange={(e) =>
+                handleCourseChange(index, "end_time", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="Day"
+              value={course.day}
+              onChange={(e) => handleCourseChange(index, "day", e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Population of Students"
+              value={course.capacity}
+              onChange={(e) =>
+                handleCourseChange(index, "capacity", parseInt(e.target.value))
+              }
+            />
+          </div>
           <button onClick={() => removeCourse(index)}>Remove</button>
         </div>
       ))}

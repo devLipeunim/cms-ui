@@ -113,7 +113,7 @@ h3 {
 }
 
 button {
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 10px 20px;
   background-color: indigo;
   color: white;
@@ -128,9 +128,10 @@ button:hover {
 
 .aButton{
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 
@@ -215,6 +216,15 @@ input {
 .delete-button:focus {
   background-color: #e55353;
   color: #fff;
+}
+
+.courseForm{
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* CSS for table */
