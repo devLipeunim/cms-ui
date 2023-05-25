@@ -92,11 +92,15 @@ const Updated = () => {
   };
 
   const addVenue = () => {
-    setVenues([
-      ...venues,
-      { name: newVenue.name, capacity: newVenue.capacity },
-    ]);
-    setNewVenue({ name: "", capacity: 0 });
+    if (newVenue.name !== "" && newVenue.capacity !== 0) {
+      setVenues([
+        ...venues,
+        { name: newVenue.name, capacity: newVenue.capacity },
+      ]);
+      setNewVenue({ name: "", capacity: 0 });
+    } else {
+      alert("Kindly input venue name and capacity");
+    }
   };
 
   const editVenue = (index) => {
