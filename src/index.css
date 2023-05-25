@@ -178,8 +178,7 @@ input {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: none;
-  /* margin-left: 50%; */
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 4px 3px 6px;
 }
 
 /* CSS for Add Venue button */

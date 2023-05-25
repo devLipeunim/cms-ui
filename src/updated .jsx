@@ -1,37 +1,41 @@
 import React, { useState } from "react";
 
 const Updated = () => {
+  // State variables
   const [venues, setVenues] = useState([
     { name: "KDLT", capacity: 100 },
     { name: "NFLT", capacity: 250 },
     { name: "CBN", capacity: 1000 },
-    { name: "FLT", capacity: 1200 },
+    { name: "CLT", capacity: 1200 },
   ]);
 
   const [courseData, setCourseData] = useState([]);
   const [allocatedTimetable, setAllocatedTimetable] = useState([]);
 
-  const [newVenue, setNewVenue] = useState({ name: "", capacity: '' });
+  const [newVenue, setNewVenue] = useState({ name: "", capacity: "" });
   const [editIndex, setEditIndex] = useState(-1);
 
+  // Handler for updating course data
   const handleCourseChange = (index, field, value) => {
     const updatedCourseData = [...courseData];
     updatedCourseData[index][field] = value;
     setCourseData(updatedCourseData);
   };
-
+  // Handler for updating venue data
   const handleVenueChange = (index, field, value) => {
     const updatedVenues = [...venues];
     updatedVenues[index][field] = value;
     setVenues(updatedVenues);
   };
 
+  // Function for exporting HTML to Word document
+
   function export2Word(element, filename = "") {
     var preHtml =
       "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
     var postHtml = "</body></html>";
     var html = preHtml + document.getElementById(element).innerHTML + postHtml;
-
+    // Create a Blob object with the HTML content
     var blob = new Blob(["\ufeff", html], {
       type: "application/msword",
     });
@@ -49,6 +53,7 @@ const Updated = () => {
     document.body.appendChild(downloadLink);
 
     if (navigator.msSaveOrOpenBlob) {
+      // For IE/Edge browsers
       navigator.msSaveOrOpenBlob(blob, filename);
     } else {
       // Create a link to the file
@@ -63,7 +68,7 @@ const Updated = () => {
 
     document.body.removeChild(downloadLink);
   }
-
+  // Function for adding a new course
   const addCourse = () => {
     setCourseData([
       ...courseData,
@@ -77,6 +82,8 @@ const Updated = () => {
       },
     ]);
   };
+
+  // Function for removing a course
 
   const removeCourse = (index) => {
     const updatedCourseData = [...courseData];
@@ -293,7 +300,7 @@ const Updated = () => {
           />
           <input
             type="number"
-            placeholder="Capacity"
+            placeholder="Population of Students"
             value={course.capacity}
             onChange={(e) =>
               handleCourseChange(index, "capacity", parseInt(e.target.value))
