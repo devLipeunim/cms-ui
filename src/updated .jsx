@@ -182,6 +182,35 @@ const Updated = () => {
 
     setAllocatedTimetable(updatedAllocatedTimetable);
   };
+  // Selecting courses
+  const availableCourses = [
+    "CSC 102",
+    "CSC 103",
+    "MAT 102",
+    "PHY 102",
+    "CHE 102",
+    "PSY 102",
+  ];
+
+  // Selecting lecturers
+  const availableLecturers = [
+    "Dr. Ayinla",
+    "Dr. Ayinla_2",
+    "Dr. Ayinla_3",
+    "Dr. Woods",
+    "Dr. Woods_2",
+    "Dr. Woods_3",
+  ];
+
+  // Selecting days
+  const availableDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   return (
     <div className="container_2">
@@ -279,44 +308,76 @@ const Updated = () => {
       {courseData.map((course, index) => (
         <div key={index}>
           <div className="courseForm">
-            <input
-              type="text"
-              placeholder="Course"
+            <select
               value={course.course}
               onChange={(e) =>
                 handleCourseChange(index, "course", e.target.value)
               }
-            />
-            <input
-              type="text"
-              placeholder="Lecturer"
+            >
+              <option value="" hidden>
+                Select a Course
+              </option>
+              {availableCourses.map((course) => (
+                <option value={course} key={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+
+            <select
               value={course.supervisors}
               onChange={(e) =>
                 handleCourseChange(index, "supervisors", e.target.value)
               }
-            />
+            >
+              <option value="" hidden>
+                Select the Lecturer
+              </option>
+              {availableLecturers.map((course) => (
+                <option value={course} key={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+            
+            <label>Start Time:</label>
             <input
-              type="text"
-              placeholder="Start Time"
+              type="time"
+              id="stimepicker"
               value={course.start_time}
               onChange={(e) =>
                 handleCourseChange(index, "start_time", e.target.value)
               }
             />
+            <label>Finish Time:</label>
             <input
-              type="text"
-              placeholder="End Time"
+              type="time"
+              id="ftimepicker"
               value={course.end_time}
               onChange={(e) =>
                 handleCourseChange(index, "end_time", e.target.value)
               }
             />
-            <input
-              type="text"
+
+            <select
+              value={course.day}
+              onChange={(e) => handleCourseChange(index, "day", e.target.value)}
+            >
+              <option value="" hidden>
+                Select a Day
+              </option>
+              {availableDays.map((course) => (
+                <option value={course} key={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+            {/* <input
+              type="date"
               placeholder="Day"
               value={course.day}
               onChange={(e) => handleCourseChange(index, "day", e.target.value)}
-            />
+            /> */}
             <input
               type="number"
               placeholder="Population of Students"

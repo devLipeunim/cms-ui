@@ -169,18 +169,32 @@ header .container {
 label {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: .95rem;
 }
 
-input {
+input,select {
   display: block;
   margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.16) 4px 3px 6px;
 }
+
+/* #stimepicker:before{
+  content: "Start-Time";
+  color: inherit;
+
+  margin-right: .6em;
+} */
+/* #stimepicker:focus:before{
+  content: "";
+}
+#ftimepicker:before{
+  content: "Finish-Time";
+  margin-right: .6em;
+} */
 
 /* CSS for Add Venue button */
 .link-button {
@@ -267,6 +281,7 @@ input {
   .CSVReader-input,
   button,
   input,
+  select,
   .table {
     font-size: 1rem;
   }
@@ -278,24 +293,6 @@ input {
     font-size: 1.5rem;
   }
 }
-
-/* CSS for intro text */
-/* .intro {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-} */
-
-/* CSS for container */
-/* .container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 2rem;
-} */
-
-/* CSS for form container */
-/* .form-container {
-  margin-bottom: 2rem;
-} */
 
 @media (min-width: 1024px) {
   .container {
