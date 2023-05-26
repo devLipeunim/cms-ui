@@ -133,6 +133,7 @@ const Updated = () => {
       Wednesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
       Thursday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
       Friday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
+      Saturday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
     };
 
     const updatedAllocatedTimetable = courseData.map((row) => {
@@ -339,7 +340,7 @@ const Updated = () => {
                 </option>
               ))}
             </select>
-            
+
             <label>Start Time:</label>
             <input
               type="time"
