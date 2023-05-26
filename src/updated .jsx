@@ -75,6 +75,7 @@ const Updated = () => {
       {
         course: "",
         supervisors: "",
+        assisting_supervisors: "",
         start_time: "",
         end_time: "",
         day: "",
@@ -128,23 +129,33 @@ const Updated = () => {
 
   const allocateVenues = () => {
     const venueBookings = {
-      Monday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Tuesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Wednesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Thursday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Friday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Saturday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
+      Monday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Tuesday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Wednesday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Thursday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Friday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Saturday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
     };
-
+  
     const updatedAllocatedTimetable = courseData.map((row) => {
-      const { course, supervisors, start_time, end_time, day, capacity } = row;
+      const {
+        course,
+        supervisors,
+        assisting_supervisors,
+        start_time,
+        end_time,
+        day,
+        capacity,
+      } = row;
       const availableVenues = [];
-
+  
       for (const venue of venues) {
         if (capacity <= venue.capacity) {
           const bookingsForVenue = venueBookings[day][venue.name] || [];
           console.log(bookingsForVenue);
           bookingsForVenue.sort((a, b) => a.end_time - b.end_time);
+  
+          // Check if the course's start time is after the previous course's end time
           if (
             !bookingsForVenue.length ||
             bookingsForVenue[bookingsForVenue.length - 1].end_time <= start_time
@@ -153,15 +164,22 @@ const Updated = () => {
           }
         }
       }
-
+  
       if (availableVenues.length > 0) {
         const selectedVenue = availableVenues[0];
         const bookingsForVenue = venueBookings[day][selectedVenue.name] || [];
         venueBookings[day][selectedVenue.name] = bookingsForVenue;
-        bookingsForVenue.push({ course, supervisors, start_time, end_time });
+        bookingsForVenue.push({
+          course,
+          supervisors,
+          assisting_supervisors,
+          start_time,
+          end_time,
+        });
         return {
           course,
           supervisors,
+          assisting_supervisors,
           start_time,
           end_time,
           day,
@@ -169,10 +187,11 @@ const Updated = () => {
           venue: selectedVenue.name,
         };
       }
-
+  
       return {
         course,
         supervisors,
+        assisting_supervisors,
         start_time,
         end_time,
         day,
@@ -180,9 +199,10 @@ const Updated = () => {
         venue: "Not available",
       };
     });
-
+  
     setAllocatedTimetable(updatedAllocatedTimetable);
   };
+  
   // Selecting courses
   const availableCourses = [
     "CSC 102",
@@ -341,6 +361,15 @@ const Updated = () => {
               ))}
             </select>
 
+            <input
+              type="text"
+              placeholder="Assisting_Lecturer"
+              value={course.assisting_supervisors}
+              onChange={(e) =>
+                handleCourseChange(index, "assisting_supervisors", e.target.value)
+              }
+            />
+
             <label>Start Time:</label>
             <input
               type="time"
@@ -434,6 +463,15 @@ const Updated = () => {
                     backgroundColor: "#f2f2f2",
                   }}
                 >
+                  Assisting_Lecturer
+                </th>
+                <th
+                  style={{
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    backgroundColor: "#f2f2f2",
+                  }}
+                >
                   Start Time
                 </th>
                 <th
@@ -473,6 +511,9 @@ const Updated = () => {
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                     {row.supervisors}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {row.assisting_supervisors}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                     {row.start_time}
