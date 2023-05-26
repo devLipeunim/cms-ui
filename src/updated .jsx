@@ -127,6 +127,22 @@ const Updated = () => {
     setEditIndex(-1);
   };
 
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(":");
+    let formattedTime = "";
+    let period = "";
+
+    if (hours < 12) {
+      formattedTime = hours;
+      period = "AM";
+    } else {
+      formattedTime = hours % 12 || 12;
+      period = "PM";
+    }
+
+    return formattedTime + ":" + minutes + " " + period;
+  };
+
   const allocateVenues = () => {
     const venueBookings = {
       Monday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
@@ -136,7 +152,7 @@ const Updated = () => {
       Friday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
       Saturday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
     };
-  
+
     const updatedAllocatedTimetable = courseData.map((row) => {
       const {
         course,
@@ -148,13 +164,13 @@ const Updated = () => {
         capacity,
       } = row;
       const availableVenues = [];
-  
+
       for (const venue of venues) {
         if (capacity <= venue.capacity) {
           const bookingsForVenue = venueBookings[day][venue.name] || [];
           console.log(bookingsForVenue);
           bookingsForVenue.sort((a, b) => a.end_time - b.end_time);
-  
+
           // Check if the course's start time is after the previous course's end time
           if (
             !bookingsForVenue.length ||
@@ -164,7 +180,7 @@ const Updated = () => {
           }
         }
       }
-  
+
       if (availableVenues.length > 0) {
         const selectedVenue = availableVenues[0];
         const bookingsForVenue = venueBookings[day][selectedVenue.name] || [];
@@ -187,7 +203,7 @@ const Updated = () => {
           venue: selectedVenue.name,
         };
       }
-  
+
       return {
         course,
         supervisors,
@@ -199,10 +215,10 @@ const Updated = () => {
         venue: "Not available",
       };
     });
-  
+
     setAllocatedTimetable(updatedAllocatedTimetable);
   };
-  
+
   // Selecting courses
   const availableCourses = [
     "CSC 102",
@@ -366,7 +382,11 @@ const Updated = () => {
               placeholder="Assisting_Lecturer"
               value={course.assisting_supervisors}
               onChange={(e) =>
-                handleCourseChange(index, "assisting_supervisors", e.target.value)
+                handleCourseChange(
+                  index,
+                  "assisting_supervisors",
+                  e.target.value
+                )
               }
             />
 
@@ -516,10 +536,10 @@ const Updated = () => {
                     {row.assisting_supervisors}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.start_time}
+                    {formatTime(row.start_time)}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.end_time}
+                    {formatTime(row.end_time)}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                     {row.day}
