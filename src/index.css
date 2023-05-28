@@ -468,7 +468,7 @@ select {
 
 @media (max-width: 430px){
   .modal-content{
-    top: 550px;
+    top: 500px;
   }
   .codes{
     top: 1200px;
@@ -476,6 +476,14 @@ select {
 }
 
 @media (max-width: 380px){
+  .modal-content{
+    top: 600px;
+  }
+  .codes{
+    top: 1450px;
+  }
+}
+@media (max-width: 320px){
   .modal-content{
     top: 670px;
   }
