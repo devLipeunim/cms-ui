@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ProgramUx from "./Program_ux";
+import ProgramCodes from "./Program_codes";
 
 const Updated = () => {
   // State variables
@@ -29,7 +31,6 @@ const Updated = () => {
   };
 
   // Function for exporting HTML to Word document
-
   function export2Word(element, filename = "") {
     var preHtml =
       "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
@@ -85,13 +86,13 @@ const Updated = () => {
   };
 
   // Function for removing a course
-
   const removeCourse = (index) => {
     const updatedCourseData = [...courseData];
     updatedCourseData.splice(index, 1);
     setCourseData(updatedCourseData);
   };
 
+  // Function for adding a venue and its capacity
   const addVenue = () => {
     if (newVenue.name !== "" && newVenue.capacity !== 0) {
       setVenues([
@@ -103,19 +104,19 @@ const Updated = () => {
       alert("Kindly input venue name and capacity");
     }
   };
-
+  // Function for editing a venue and its capacity
   const editVenue = (index) => {
     setEditIndex(index);
     const { name, capacity } = venues[index];
     setNewVenue({ name, capacity });
   };
-
+  // Function for removing a venue
   const handleVenueRemove = (index) => {
     const updatedVenues = [...venues];
     updatedVenues.splice(index, 1);
     setVenues(updatedVenues);
   };
-
+  // Function for updating a venue and its capacity
   const updateVenue = () => {
     const updatedVenues = [...venues];
     updatedVenues[editIndex] = {
@@ -126,7 +127,7 @@ const Updated = () => {
     setNewVenue({ name: "", capacity: 0 });
     setEditIndex(-1);
   };
-
+  // Function to convert time to 12 hours format and include AM or PM. This is for the time displayed on the time-table
   const formatTime = (time) => {
     const [hours, minutes] = time.split(":");
     let formattedTime = "";
@@ -142,7 +143,7 @@ const Updated = () => {
 
     return formattedTime + ":" + minutes + " " + period;
   };
-
+  // Function for allocating a venue to a course
   const allocateVenues = () => {
     const venueBookings = {
       Monday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
@@ -252,6 +253,10 @@ const Updated = () => {
   return (
     <div className="container_2">
       <h1>Welcome To The Course Management System!</h1>
+      <div className="details">
+        <ProgramUx />
+        <ProgramCodes />
+      </div>
       {venues.length > 0 && (
         <div>
           <h3>Available Venues</h3>

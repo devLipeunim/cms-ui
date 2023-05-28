@@ -14,6 +14,23 @@ body {
   align-items: center;
 }
 
+/*========== SCROLL BAR ==========*/
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+  background-color: hsl(250, 12%, 90%);
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: indigo;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(248, 214, 20);
+}
+
 /* CSS for main heading */
 h1 {
   font-size: 3rem;
@@ -123,17 +140,16 @@ button {
 }
 
 button:hover {
-  background-color: gold;
+  background-color: rgb(248, 214, 20);
 }
 
-.aButton{
+.aButton {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 15px;
 }
-
 
 .container {
   padding: 0 15px;
@@ -160,19 +176,29 @@ header.active {
 
 header .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  /* justify-content: space-between; */
   align-items: center;
 }
 
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: -25px;
+}
 
 /* CSS for new venue form */
 label {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: .95rem;
+  font-size: 0.95rem;
 }
 
-input,select {
+input,
+select {
   display: block;
   margin-bottom: 1rem;
   font-size: 1.3rem;
@@ -181,20 +207,6 @@ input,select {
   border: none;
   box-shadow: rgba(0, 0, 0, 0.16) 4px 3px 6px;
 }
-
-/* #stimepicker:before{
-  content: "Start-Time";
-  color: inherit;
-
-  margin-right: .6em;
-} */
-/* #stimepicker:focus:before{
-  content: "";
-}
-#ftimepicker:before{
-  content: "Finish-Time";
-  margin-right: .6em;
-} */
 
 /* CSS for Add Venue button */
 .link-button {
@@ -206,6 +218,10 @@ input,select {
   padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
 }
 
 .link-button:hover,
@@ -232,7 +248,7 @@ input,select {
   color: #fff;
 }
 
-.courseForm{
+.courseForm {
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
@@ -275,6 +291,125 @@ input,select {
   background-color: #f2f7ff;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: hsla(0, 0%, 0%, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  overflow-y: scroll;
+  z-index: 10;
+  animation: popup 1s ease-in-out 0.4s forwards;
+}
+
+@keyframes popup {
+  100% {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+}
+.modal.closed {
+  display: none;
+}
+
+.modal-close-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.modal-content, .codes {
+  top: 450px;
+  position: relative;
+  max-width: 400px;
+  margin: 20px;
+  background: white;
+  border-radius: 10px;
+  z-index: 2;
+  animation: scaleUp 0.5s ease-in-out 0.5s forwards;
+}
+
+.codes{
+  top: 1120px;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.newsletter {
+  padding: 50px 30px 30px;
+  text-align: center;
+}
+
+.newsletter-header {
+  margin-bottom: 15px;
+}
+
+.newsletter-title {
+  color: #88b04b;
+  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  font-size: 35px;
+  margin-top: 37px;
+  margin-bottom: 5px;
+}
+
+.newsletter-header img {
+  width: 100px;
+  margin: -50px;
+  border-radius: 50%;
+}
+.newsletter-desc {
+  color: hsl(0, 0%, 47%);
+  font-family: "Poppins", sans-serif;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* .checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #9abc66;
+  font-size: 100px;
+  line-height: 200px;
+} */
+
+.check {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px 0;
+  background-color: indigo;
+  color: white;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.detail_sections li{
+  margin-top: 10px;
+  text-align: left;
+}
 @media only screen and (max-width: 768px) {
   /* CSS for mobile devices */
 
@@ -319,10 +454,6 @@ input,select {
 }
 
 @media (min-width: 550px) {
-  /**
-   * REUSED STYLE
-   */
-
   .container {
     max-width: 500px;
     margin-inline: auto;
@@ -332,5 +463,23 @@ input,select {
 @media (min-width: 768px) {
   .container {
     max-width: 680px;
+  }
+}
+
+@media (max-width: 430px){
+  .modal-content{
+    top: 550px;
+  }
+  .codes{
+    top: 1200px;
+  }
+}
+
+@media (max-width: 380px){
+  .modal-content{
+    top: 670px;
+  }
+  .codes{
+    top: 1550px;
   }
 }
