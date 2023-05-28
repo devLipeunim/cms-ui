@@ -329,9 +329,9 @@ select {
 }
 
 .modal-content, .codes {
-  top: 450px;
+  top: 200px;
   position: relative;
-  max-width: 400px;
+  max-width: 900px;
   margin: 20px;
   background: white;
   border-radius: 10px;
@@ -340,7 +340,7 @@ select {
 }
 
 .codes{
-  top: 1120px;
+  top: 200px;
 }
 
 @keyframes scaleUp {
@@ -466,9 +466,19 @@ select {
   }
 }
 
+@media (max-width: 7680px){
+  .modal-content{
+    top: 280px;
+  }
+  .codes{
+    top: 720px;
+  }
+
+}
+
 @media (max-width: 430px){
   .modal-content{
-    top: 500px;
+    top: 490px;
   }
   .codes{
     top: 1200px;
@@ -477,7 +487,7 @@ select {
 
 @media (max-width: 380px){
   .modal-content{
-    top: 600px;
+    top: 590px;
   }
   .codes{
     top: 1450px;
