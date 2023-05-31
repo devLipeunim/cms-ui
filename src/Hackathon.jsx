@@ -45,14 +45,17 @@ function App() {
       Thursday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
       Friday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
     };
+    
 
     const allocatedTimetable = data.map((row) => {
       const { course, supervisors, start_time, end_time, day, capacity } = row;
       const availableVenues = [];
-
+      console.log(capacity)
+      
       for (const venue in venues) {
         if (capacity <= venues[venue]) {
-          const bookingsForVenue = venueBookings[day][venue];
+          const bookingsForVenue = venueBookings[day];
+          console.log(day.slice('('))
           bookingsForVenue.sort((a, b) => a.end_time - b.end_time);
           if (!bookingsForVenue.length || bookingsForVenue[bookingsForVenue.length - 1].end_time <= start_time) {
             availableVenues.push(venue);

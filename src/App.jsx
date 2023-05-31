@@ -3,6 +3,7 @@
 // import viteLogo from '/vite.svg'
 import Navbar from './Navbar.jsx'
 import Hackathon from './Hackathon.jsx'
+import Updated from './updated .jsx'
 import './App.css'
 
 function App() {
@@ -32,8 +33,8 @@ function App() {
       </p> */}
 
       <Navbar/>
-      <Hackathon/>
-
+      {/* <Hackathon/> */}
+      <Updated/>
 
     </>
   )
