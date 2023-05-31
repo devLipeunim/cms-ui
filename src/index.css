@@ -10,11 +10,31 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
+  justify-content: center;
+  align-items: center;
+}
+
+/*========== SCROLL BAR ==========*/
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+  background-color: hsl(250, 12%, 90%);
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: indigo;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(248, 214, 20);
 }
 
 /* CSS for main heading */
 h1 {
   font-size: 3rem;
+  margin-top: 1rem;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -22,13 +42,17 @@ h1 {
 /* CSS for section headings */
 h2 {
   font-size: 2.5rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 /* CSS for subsection headings */
 h3 {
   font-size: 2rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 /*-----------------------------------*\
@@ -59,9 +83,9 @@ h3 {
 
 .icon-svg {
   display: block;
-  width: 80px;
+  width: 50px;
   height: auto;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .preload.loaded {
@@ -70,10 +94,11 @@ h3 {
 }
 
 .container_2 {
-  margin-top: 120px;
+  margin-top: 60px;
   padding: 20px;
   text-align: center;
 }
+o
 
 .timetable {
   width: 100%;
@@ -100,9 +125,9 @@ h3 {
 }
 
 button {
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: indigo;
   color: white;
   border: none;
   border-radius: 4px;
@@ -110,9 +135,16 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: rgb(248, 214, 20);
 }
 
+.aButton {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
 
 .container {
   padding: 0 15px;
@@ -139,65 +171,35 @@ header.active {
 
 header .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 
-/* CSS for upload button */
-.CSVReader-input {
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #5368b5;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
+.details {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  gap: 15px;
+  margin-top: -25px;
 }
-
-.CSVReader-input:hover,
-.CSVReader-input:focus {
-  background-color: #32438f;
-}
-
-/* CSS for add venue button */
-/* button {
-  display: block;
-  margin: 1rem auto 2rem;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #5368b5;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-button:hover,
-button:focus {
-  background-color: #32438f;
-} */
 
 /* CSS for new venue form */
 label {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 0.95rem;
 }
 
-input {
+input,
+select {
   display: block;
   margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 4px 3px 6px;
 }
 
 /* CSS for Add Venue button */
@@ -210,6 +212,10 @@ input {
   padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
 }
 
 .link-button:hover,
@@ -234,6 +240,15 @@ input {
 .delete-button:focus {
   background-color: #e55353;
   color: #fff;
+}
+
+.courseForm {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* CSS for table */
@@ -270,38 +285,142 @@ input {
   background-color: #f2f7ff;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: hsla(0, 0%, 0%, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  overflow-y: scroll;
+  z-index: 10;
+  animation: popup 1s ease-in-out 0.4s forwards;
+}
+
+@keyframes popup {
+  100% {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+}
+.modal.closed {
+  display: none;
+}
+
+.modal-close-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.modal-content, .codes {
+  top: 200px;
+  position: relative;
+  max-width: 800px;
+  margin: 20px;
+  background: white;
+  border-radius: 10px;
+  z-index: 2;
+  animation: scaleUp 0.5s ease-in-out 0.5s forwards;
+}
+
+.codes{
+  top: 200px;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.newsletter {
+  padding: 50px 30px 30px;
+  text-align: center;
+}
+
+.newsletter-header {
+  margin-bottom: 15px;
+}
+
+.newsletter-title {
+  color: #88b04b;
+  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  font-size: 35px;
+  margin-top: 37px;
+  margin-bottom: 5px;
+}
+
+.newsletter-header img {
+  width: 100px;
+  margin: -50px;
+  border-radius: 50%;
+}
+.newsletter-desc {
+  color: hsl(0, 0%, 47%);
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* .checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #9abc66;
+  font-size: 100px;
+  line-height: 200px;
+} */
+
+.check {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px 0;
+  background-color: indigo;
+  color: white;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.detail_sections li{
+  margin-top: 10px;
+  text-align: left;
+}
 @media only screen and (max-width: 768px) {
   /* CSS for mobile devices */
 
   .CSVReader-input,
   button,
   input,
+  select,
   .table {
     font-size: 1rem;
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
   }
 }
-
-/* CSS for intro text */
-/* .intro {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-} */
-
-/* CSS for container */
-/* .container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 2rem;
-} */
-
-/* CSS for form container */
-/* .form-container {
-  margin-bottom: 2rem;
-} */
 
 @media (min-width: 1024px) {
   .container {
@@ -328,10 +447,6 @@ input {
 }
 
 @media (min-width: 550px) {
-  /**
-   * REUSED STYLE
-   */
-
   .container {
     max-width: 500px;
     margin-inline: auto;
@@ -341,5 +456,41 @@ input {
 @media (min-width: 768px) {
   .container {
     max-width: 680px;
+  }
+}
+
+@media (max-width: 7680px){
+  .modal-content{
+    top: 280px;
+  }
+  .codes{
+    top: 720px;
+  }
+
+}
+
+@media (max-width: 430px){
+  .modal-content{
+    top: 490px;
+  }
+  .codes{
+    top: 1200px;
+  }
+}
+
+@media (max-width: 380px){
+  .modal-content{
+    top: 590px;
+  }
+  .codes{
+    top: 1450px;
+  }
+}
+@media (max-width: 320px){
+  .modal-content{
+    top: 670px;
+  }
+  .codes{
+    top: 1550px;
   }
 }

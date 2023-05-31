@@ -10,14 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "docx": "^8.0.4",
-    "docxtemplater": "^3.37.8",
-    "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-papaparse": "^4.1.0",
-    "react-router-dom": "^6.11.2",
-    "react-table": "^7.8.0"
+    "react-router-dom": "^6.11.2"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",

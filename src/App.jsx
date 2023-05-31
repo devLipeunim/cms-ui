@@ -33,8 +33,9 @@ function App() {
       </p> */}
 
       <Navbar/>
-      {/* <Hackathon/> */}
       <Updated/>
+      {/* <Hackathon/> */}
+
 
     </>
   )
