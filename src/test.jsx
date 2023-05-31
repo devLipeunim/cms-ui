@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ProgramUx from "./Program_ux";
+import ProgramCodes from "./Program_codes";
 
 const Updated = () => {
   // State variables
@@ -29,7 +31,6 @@ const Updated = () => {
   };
 
   // Function for exporting HTML to Word document
-
   function export2Word(element, filename = "") {
     var preHtml =
       "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
@@ -75,6 +76,7 @@ const Updated = () => {
       {
         course: "",
         supervisors: "",
+        assisting_supervisors: "",
         start_time: "",
         end_time: "",
         day: "",
@@ -84,13 +86,13 @@ const Updated = () => {
   };
 
   // Function for removing a course
-
   const removeCourse = (index) => {
     const updatedCourseData = [...courseData];
     updatedCourseData.splice(index, 1);
     setCourseData(updatedCourseData);
   };
 
+  // Function for adding a venue and its capacity
   const addVenue = () => {
     if (newVenue.name !== "" && newVenue.capacity !== 0) {
       setVenues([
@@ -102,19 +104,19 @@ const Updated = () => {
       alert("Kindly input venue name and capacity");
     }
   };
-
+  // Function for editing a venue and its capacity
   const editVenue = (index) => {
     setEditIndex(index);
     const { name, capacity } = venues[index];
     setNewVenue({ name, capacity });
   };
-
+  // Function for removing a venue
   const handleVenueRemove = (index) => {
     const updatedVenues = [...venues];
     updatedVenues.splice(index, 1);
     setVenues(updatedVenues);
   };
-
+  // Function for updating a venue and its capacity
   const updateVenue = () => {
     const updatedVenues = [...venues];
     updatedVenues[editIndex] = {
@@ -125,18 +127,43 @@ const Updated = () => {
     setNewVenue({ name: "", capacity: 0 });
     setEditIndex(-1);
   };
+  // Function to convert time to 12 hours format and include AM or PM. This is for the time displayed on the time-table
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(":");
+    let formattedTime = "";
+    let period = "";
 
+    if (hours < 12) {
+      formattedTime = hours;
+      period = "AM";
+    } else {
+      formattedTime = hours % 12 || 12;
+      period = "PM";
+    }
+
+    return formattedTime + ":" + minutes + " " + period;
+  };
+  // Function for allocating a venue to a course
   const allocateVenues = () => {
     const venueBookings = {
-      Monday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Tuesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Wednesday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Thursday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
-      Friday: { CBN: [], KDLT: [], NFLT: [], FLT: [] },
+      Monday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Tuesday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Wednesday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Thursday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Friday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
+      Saturday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
     };
 
     const updatedAllocatedTimetable = courseData.map((row) => {
-      const { course, supervisors, start_time, end_time, day, capacity } = row;
+      const {
+        course,
+        supervisors,
+        assisting_supervisors,
+        start_time,
+        end_time,
+        day,
+        capacity,
+      } = row;
       const availableVenues = [];
 
       for (const venue of venues) {
@@ -144,6 +171,8 @@ const Updated = () => {
           const bookingsForVenue = venueBookings[day][venue.name] || [];
           console.log(bookingsForVenue);
           bookingsForVenue.sort((a, b) => a.end_time - b.end_time);
+
+          // Check if the course's start time is after the previous course's end time
           if (
             !bookingsForVenue.length ||
             bookingsForVenue[bookingsForVenue.length - 1].end_time <= start_time
@@ -157,10 +186,17 @@ const Updated = () => {
         const selectedVenue = availableVenues[0];
         const bookingsForVenue = venueBookings[day][selectedVenue.name] || [];
         venueBookings[day][selectedVenue.name] = bookingsForVenue;
-        bookingsForVenue.push({ course, supervisors, start_time, end_time });
+        bookingsForVenue.push({
+          course,
+          supervisors,
+          assisting_supervisors,
+          start_time,
+          end_time,
+        });
         return {
           course,
           supervisors,
+          assisting_supervisors,
           start_time,
           end_time,
           day,
@@ -172,6 +208,7 @@ const Updated = () => {
       return {
         course,
         supervisors,
+        assisting_supervisors,
         start_time,
         end_time,
         day,
@@ -183,9 +220,43 @@ const Updated = () => {
     setAllocatedTimetable(updatedAllocatedTimetable);
   };
 
+  // Selecting courses
+  const availableCourses = [
+    "CSC 102",
+    "CSC 103",
+    "MAT 102",
+    "PHY 102",
+    "CHE 102",
+    "PSY 102",
+  ];
+
+  // Selecting lecturers
+  const availableLecturers = [
+    "Dr. Ayinla",
+    "Dr. Ayinla_2",
+    "Dr. Ayinla_3",
+    "Dr. Woods",
+    "Dr. Woods_2",
+    "Dr. Woods_3",
+  ];
+
+  // Selecting days
+  const availableDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
   return (
     <div className="container_2">
       <h1>Welcome To The Course Management System!</h1>
+      <div className="details">
+        <ProgramUx />
+        <ProgramCodes />
+      </div>
       {venues.length > 0 && (
         <div>
           <h3>Available Venues</h3>
@@ -279,44 +350,89 @@ const Updated = () => {
       {courseData.map((course, index) => (
         <div key={index}>
           <div className="courseForm">
-            <input
-              type="text"
-              placeholder="Course"
+            <select
               value={course.course}
               onChange={(e) =>
                 handleCourseChange(index, "course", e.target.value)
               }
-            />
-            <input
-              type="text"
-              placeholder="Lecturer"
+            >
+              <option value="" hidden>
+                Select a Course
+              </option>
+              {availableCourses.map((course) => (
+                <option value={course} key={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+
+            <select
               value={course.supervisors}
               onChange={(e) =>
                 handleCourseChange(index, "supervisors", e.target.value)
               }
-            />
+            >
+              <option value="" hidden>
+                Select the Lecturer
+              </option>
+              {availableLecturers.map((course) => (
+                <option value={course} key={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+
             <input
               type="text"
-              placeholder="Start Time"
+              placeholder="Assisting_Lecturer"
+              value={course.assisting_supervisors}
+              onChange={(e) =>
+                handleCourseChange(
+                  index,
+                  "assisting_supervisors",
+                  e.target.value
+                )
+              }
+            />
+
+            <label>Start Time:</label>
+            <input
+              type="time"
+              id="stimepicker"
               value={course.start_time}
               onChange={(e) =>
                 handleCourseChange(index, "start_time", e.target.value)
               }
             />
+            <label>Finish Time:</label>
             <input
-              type="text"
-              placeholder="End Time"
+              type="time"
+              id="ftimepicker"
               value={course.end_time}
               onChange={(e) =>
                 handleCourseChange(index, "end_time", e.target.value)
               }
             />
-            <input
-              type="text"
+
+            <select
+              value={course.day}
+              onChange={(e) => handleCourseChange(index, "day", e.target.value)}
+            >
+              <option value="" hidden>
+                Select a Day
+              </option>
+              {availableDays.map((course) => (
+                <option value={course} key={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+            {/* <input
+              type="date"
               placeholder="Day"
               value={course.day}
               onChange={(e) => handleCourseChange(index, "day", e.target.value)}
-            />
+            /> */}
             <input
               type="number"
               placeholder="Population of Students"
@@ -372,6 +488,15 @@ const Updated = () => {
                     backgroundColor: "#f2f2f2",
                   }}
                 >
+                  Assisting_Lecturer
+                </th>
+                <th
+                  style={{
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    backgroundColor: "#f2f2f2",
+                  }}
+                >
                   Start Time
                 </th>
                 <th
@@ -413,10 +538,13 @@ const Updated = () => {
                     {row.supervisors}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.start_time}
+                    {row.assisting_supervisors}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.end_time}
+                    {formatTime(row.start_time)}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {formatTime(row.end_time)}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                     {row.day}

@@ -17,6 +17,10 @@ const Updated = () => {
   const [newVenue, setNewVenue] = useState({ name: "", capacity: "" });
   const [editIndex, setEditIndex] = useState(-1);
 
+  //state variables to track the edited venue's name and capacity:?
+  const [editedVenueName, setEditedVenueName] = useState("");
+  const [editedVenueCapacity, setEditedVenueCapacity] = useState("");
+
   // Handler for updating course data
   const handleCourseChange = (index, field, value) => {
     const updatedCourseData = [...courseData];
@@ -109,6 +113,8 @@ const Updated = () => {
     setEditIndex(index);
     const { name, capacity } = venues[index];
     setNewVenue({ name, capacity });
+    setEditedVenueName(name);
+    setEditedVenueCapacity(capacity);
   };
   // Function for removing a venue
   const handleVenueRemove = (index) => {
@@ -470,6 +476,15 @@ const Updated = () => {
                     backgroundColor: "#f2f2f2",
                   }}
                 >
+                  Day
+                </th>
+                <th
+                  style={{
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    backgroundColor: "#f2f2f2",
+                  }}
+                >
                   Course
                 </th>
                 <th
@@ -488,7 +503,7 @@ const Updated = () => {
                     backgroundColor: "#f2f2f2",
                   }}
                 >
-                  Assisting_Lecturer
+                  Assisting Lecturer
                 </th>
                 <th
                   style={{
@@ -506,16 +521,7 @@ const Updated = () => {
                     backgroundColor: "#f2f2f2",
                   }}
                 >
-                  Finish Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Day
+                  End Time
                 </th>
                 <th
                   style={{
@@ -529,28 +535,41 @@ const Updated = () => {
               </tr>
             </thead>
             <tbody>
-              {allocatedTimetable.map((row, index) => (
+              {allocatedTimetable.map((course, index) => (
                 <tr key={index}>
+                  {index === 0 ||
+                  course.day !== allocatedTimetable[index - 1].day ? (
+                    <td
+                      style={{
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                        fontWeight: "bold",
+                      }}
+                      rowSpan={
+                        allocatedTimetable.filter((c) => c.day === course.day)
+                          .length
+                      }
+                    >
+                      {course.day}
+                    </td>
+                  ) : null}
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.course}
+                    {course.course}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.supervisors}
+                    {course.supervisors}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.assisting_supervisors}
+                    {course.assisting_supervisors}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(row.start_time)}
+                    {formatTime(course.start_time)}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(row.end_time)}
+                    {formatTime(course.end_time)}
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.day}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {row.venue}
+                    {course.venue}
                   </td>
                 </tr>
               ))}
@@ -558,6 +577,7 @@ const Updated = () => {
           </table>
         </div>
       )}
+
       {allocatedTimetable.length > 0 && (
         <button
           onClick={() => {

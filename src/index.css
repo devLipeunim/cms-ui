@@ -98,9 +98,7 @@ h3 {
   padding: 20px;
   text-align: center;
 }
-o
-
-.timetable {
+o .timetable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -322,7 +320,8 @@ select {
   z-index: 1;
 }
 
-.modal-content, .codes {
+.modal-content,
+.codes {
   top: 200px;
   position: relative;
   max-width: 800px;
@@ -333,7 +332,7 @@ select {
   animation: scaleUp 0.5s ease-in-out 0.5s forwards;
 }
 
-.codes{
+.codes {
   top: 200px;
 }
 
@@ -399,7 +398,7 @@ select {
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
 
-.detail_sections li{
+.detail_sections li {
   margin-top: 10px;
   text-align: left;
 }
@@ -459,38 +458,39 @@ select {
   }
 }
 
-@media (max-width: 7680px){
-  .modal-content{
+@media (max-width: 7680px) {
+  .modal-content {
     top: 280px;
   }
-  .codes{
+  .codes {
     top: 720px;
   }
-
 }
 
-@media (max-width: 430px){
-  .modal-content{
+@media (max-width: 430px) {
+  .modal-content {
     top: 490px;
   }
-  .codes{
+  .codes {
     top: 1200px;
   }
 }
 
-@media (max-width: 380px){
-  .modal-content{
+@media (max-width: 380px) {
+  .modal-content {
     top: 590px;
   }
-  .codes{
+  .codes {
     top: 1450px;
   }
 }
-@media (max-width: 320px){
-  .modal-content{
+@media (max-width: 320px) {
+  .modal-content {
     top: 670px;
   }
-  .codes{
+  .codes {
     top: 1550px;
   }
 }
+
+
