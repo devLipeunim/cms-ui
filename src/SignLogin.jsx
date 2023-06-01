@@ -9,6 +9,7 @@ const LoginForm = () => {
   const [matricNumber, setMatricNumber] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const BaseUrl = 'https://cms-api-o973.onrender.com'
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -16,8 +17,21 @@ const LoginForm = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    window.location.reload()
-    // Handle login logic here
+     let payload = {
+          userName: username,
+          password: password
+     }
+     console.log(payload)
+     fetch(`${BaseUrl}/api/v1/admin/login`, {
+          headers:{
+               'content-type':'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(payload)
+     }).then(response => {return response.json()}).then((data) => {
+          console.log(data)
+     })
+
   };
 
   const switchToAdmin = () => {
@@ -28,11 +42,28 @@ const LoginForm = () => {
     setIsAdmin(false);
   };
 
+  const handleStudentLogin = (e) => {
+     e.preventDefault()
+     let payload = {
+          matricNumber: matricNumber
+     }
+     fetch(`${BaseUrl}/api/v1/student/login`, {
+          headers:{
+               'content-type':'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(payload)
+     }).then(response => {return response.json()}).then((data) => {
+          console.log(data)
+     })
+
+  }
+
   return (
     <div className="login-admin">
       <img src={Login} alt="login image" className="login__img" />
       <div className={isAdmin ? "login admin" : "login"} id="loginForm">
-        <form onSubmit={handleLogin} className="login__form">
+        <form onSubmit={isAdmin? handleLogin: handleStudentLogin} className="login__form">
           <img src={Logo} className="uiLogo" alt="Ui Logo" />
           <h1 className="login__title">{isAdmin ? "Admin" : "Student"}</h1>
 
