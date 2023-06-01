@@ -107,6 +107,7 @@ const LoginForm = () => {
                     icon: 'error',
                     confirmButtonText: 'Close'
                })
+               setMatricNumber('')
           }
      })
 

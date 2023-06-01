@@ -23,23 +23,27 @@
   box-sizing: border-box;
 }
 
-/* body,
-input,
-button {
+
+.login__box-input input {
   font-size: var(--normal-font-size);
   font-family: var(--body-font);
-} */
+}
+.login__button{
+     color: black !important;
+}
+.login__button:hover{
+     background-color: white !important;
+}
 
-/* body {
-  color: var(--white-color);
-  background-color: rgb(3, 3, 3);
+.login__form{
+     color: white;
+}
 
-} */
-
-.login__box-input input,
+ .login__box-input input,
 .login__box-input button {
-  border: none;
-  outline: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 

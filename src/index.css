@@ -151,8 +151,8 @@ label {
   font-size: 0.95rem;
 }
 
-input,
-select {
+.courseForm input,
+.courseForm select {
   display: block;
   margin-bottom: 1rem;
   font-size: 1.3rem;
