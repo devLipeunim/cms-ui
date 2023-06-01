@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProgramUx from "./Program_ux";
 import ProgramCodes from "./Program_codes";
-// import './index.css'
+import Swal from 'sweetalert2';
+import './index.css';
 
 const Updated = () => {
+     const BaseUrl = 'https://cms-api-o973.onrender.com'
   // State variables
-  const [venues, setVenues] = useState([
-    { name: "KDLT", capacity: 100 },
-    { name: "NFLT", capacity: 250 },
-    { name: "CBN", capacity: 1000 },
-    { name: "CLT", capacity: 1200 },
-  ]);
+  const [venues, setVenues] = useState([]);
+  useEffect(() => {
+     fetch(`${BaseUrl}/api/v1/venue`).then(res => {return res.json()}).then((data) => {
+          setVenues(data.data);
+     })
+  }, [])
+  
 
   const [courseData, setCourseData] = useState([]);
   const [allocatedTimetable, setAllocatedTimetable] = useState([]);
 
   const [newVenue, setNewVenue] = useState({ name: "", capacity: "" });
   const [editIndex, setEditIndex] = useState(-1);
+  const [editId, setEditId] = useState('');
 
   //state variables to track the edited venue's name and capacity:?
   const [editedVenueName, setEditedVenueName] = useState("");
@@ -100,18 +104,48 @@ const Updated = () => {
   // Function for adding a venue and its capacity
   const addVenue = () => {
     if (newVenue.name !== "" && newVenue.capacity !== 0) {
-      setVenues([
-        ...venues,
-        { name: newVenue.name, capacity: newVenue.capacity },
-      ]);
-      setNewVenue({ name: "", capacity: 0 });
-    } else {
-      alert("Kindly input venue name and capacity");
-    }
+          let payload ={
+               name: newVenue.name,
+               capacity: newVenue.capacity
+          }
+          fetch(`${BaseUrl}/api/v1/venue/create`, {
+               headers:{
+                    'content-type':'application/json'
+               },
+               method: 'POST',
+               body: JSON.stringify(payload)
+          }).then(res => {return res.json()}).then((data) => {
+               if (data.status === "Ok") {
+                    Swal.fire({
+                         title: 'Success!',
+                         text: data.message,
+                         icon: 'success',
+                         confirmButtonText: 'Thanks'
+                    })
+                    setVenues([...venues, { name: newVenue.name, capacity: newVenue.capacity },]);
+                    setNewVenue({ name: "", capacity: 0 });
+               }else{
+                    Swal.fire({
+                         title: 'Error!',
+                         text: data.message,
+                         icon: 'error',
+                         confirmButtonText: 'Close'
+                    })
+               }
+          })
+     } else {
+          Swal.fire({
+               title: 'Error!',
+               text: "Kindly input venue and capacity",
+               icon: 'error',
+               confirmButtonText: 'Close'
+          })
+     }
   };
   // Function for editing a venue and its capacity
-  const editVenue = (index) => {
+  const editVenue = (index, id) => {
     setEditIndex(index);
+    setEditId(id)
     const { name, capacity } = venues[index];
     setNewVenue({ name, capacity });
     setEditedVenueName(name);
@@ -125,14 +159,51 @@ const Updated = () => {
   };
   // Function for updating a venue and its capacity
   const updateVenue = () => {
-    const updatedVenues = [...venues];
-    updatedVenues[editIndex] = {
-      name: newVenue.name,
-      capacity: newVenue.capacity,
-    };
-    setVenues(updatedVenues);
-    setNewVenue({ name: "", capacity: 0 });
-    setEditIndex(-1);
+     if (newVenue.name !== "" && newVenue.capacity !== 0) {
+          let payload ={
+               name: newVenue.name,
+               capacity: newVenue.capacity
+          }
+          fetch(`${BaseUrl}/api/v1/venue/update/${editId}`, {
+               headers:{
+                    'content-type':'application/json'
+               },
+               method: 'PUT',
+               body: JSON.stringify(payload)
+          }).then(res => {return res.json()}).then((data) => {
+               if (data.status === "Ok") {
+                    Swal.fire({
+                         title: 'Success!',
+                         text: data.message,
+                         icon: 'success',
+                         confirmButtonText: 'Thanks'
+                    })
+                    const updatedVenues = [...venues];
+                    updatedVenues[editIndex] = {
+                         name: newVenue.name,
+                         capacity: newVenue.capacity,
+                    };
+                    setVenues(updatedVenues);
+                    setNewVenue({ name: "", capacity: 0 });
+                    setEditIndex(-1);
+               }else{
+                    Swal.fire({
+                         title: 'Error!',
+                         text: data.message,
+                         icon: 'error',
+                         confirmButtonText: 'Close'
+                    })
+               }
+          })
+     }else{
+          Swal.fire({
+               title: 'Error!',
+               text: "Kindly input venue and capacity",
+               icon: 'error',
+               confirmButtonText: 'Close'
+          })
+     }
+    
   };
   // Function to convert time to 12 hours format and include AM or PM. This is for the time displayed on the time-table
   const formatTime = (time) => {
@@ -316,7 +387,7 @@ const Updated = () => {
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                     <div className="aButton">
-                      <button onClick={() => editVenue(index)}>Edit</button>
+                      <button onClick={() => editVenue(index, venue._id)}>Edit</button>
                       <button onClick={() => handleVenueRemove(index)}>
                         Remove
                       </button>

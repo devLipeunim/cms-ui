@@ -23,31 +23,28 @@
   box-sizing: border-box;
 }
 
-body,
+/* body,
 input,
 button {
   font-size: var(--normal-font-size);
   font-family: var(--body-font);
-}
+} */
 
-body {
+/* body {
   color: var(--white-color);
   background-color: rgb(3, 3, 3);
-  /* overflow-y: hidden; */
-}
 
-input,
-button {
+} */
+
+.login__box-input input,
+.login__box-input button {
   border: none;
   outline: none;
 }
 
 
 
-select{
-  padding: 1rem;
-  margin-bottom: .5rem;
-}
+
 
 a {
   text-decoration: none;

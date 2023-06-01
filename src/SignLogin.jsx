@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import Login from "./assets/Login.png"
+import Swal from 'sweetalert2'
 import Logo from "./assets/LogoUi.png"
 import './SignLogin.css'
 
 const LoginForm = () => {
+     const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [matricNumber, setMatricNumber] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({})
+  const[isLoading, setIsLoading] = useState(false)
   const BaseUrl = 'https://cms-api-o973.onrender.com'
 
   const togglePasswordVisibility = () => {
@@ -22,6 +27,7 @@ const LoginForm = () => {
           password: password
      }
      console.log(payload)
+     setIsLoading(true)
      fetch(`${BaseUrl}/api/v1/admin/login`, {
           headers:{
                'content-type':'application/json'
@@ -29,6 +35,30 @@ const LoginForm = () => {
           method: 'POST',
           body: JSON.stringify(payload)
      }).then(response => {return response.json()}).then((data) => {
+          if(data.status == 'Ok'){
+               setIsLoading(false)
+               Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'Thanks'
+               }).then(() => {
+                    localStorage.setItem('token', data.token);
+                    setUserData(data.claims);
+                    localStorage.setItem('claims', JSON.stringify(data.claims));
+                    navigate('/admin')
+                    setMatricNumber('')
+               })
+          }else{ 
+               setIsLoading(false)
+               Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+               })
+               
+          }
           console.log(data)
      })
 
@@ -47,6 +77,7 @@ const LoginForm = () => {
      let payload = {
           matricNumber: matricNumber
      }
+     setIsLoading(true)
      fetch(`${BaseUrl}/api/v1/student/login`, {
           headers:{
                'content-type':'application/json'
@@ -54,7 +85,29 @@ const LoginForm = () => {
           method: 'POST',
           body: JSON.stringify(payload)
      }).then(response => {return response.json()}).then((data) => {
-          console.log(data)
+          if(data.status == 'Ok'){
+               setIsLoading(false)
+               Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'Thanks'
+               }).then(() => {
+                    localStorage.setItem('token', data.token);
+                    setUserData(data.claims);
+                    localStorage.setItem('claims', JSON.stringify(data.claims));
+                    navigate('/admin')
+                    setMatricNumber('')
+               })
+          }else{ 
+               setIsLoading(false)
+               Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+               })
+          }
      })
 
   }
@@ -146,8 +199,8 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <button type="submit" className="login__button">
-            Login
+          <button type="submit" className="login__button" disabled= {isLoading? true: false}>
+            {isLoading? 'Loading...': "Login"}
           </button>
 
           <p className="login__register">

@@ -277,7 +277,7 @@ const ProgramUx = () => {
               <div className="newsletter-header">
                 <img src={Me} alt="Profile_pic" />
                 <h3 className="newsletter-title">Lipeunim</h3>
-                <p className="newsletter-desc">
+                <div className="newsletter-desc">
                   <b>
                     This program is a Course Management System implemented using
                     the React JavaScript library. It allows users to manage
@@ -323,7 +323,7 @@ const ProgramUx = () => {
                       </li>
                     </ol>
                   </p>
-                </p>
+                </div>
                 <button onClick={handleClose} className="check">
                   Close
                 </button>
