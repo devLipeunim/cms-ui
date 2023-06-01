@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ProgramUx from "./Program_ux";
 import ProgramCodes from "./Program_codes";
+// import './index.css'
 
 const Updated = () => {
   // State variables

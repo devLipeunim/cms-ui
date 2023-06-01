@@ -32,33 +32,68 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <!--==================== FAV-ICON ======================-->
-    <link rel="apple-touch-icon" sizes="192x192" href="./src/assets/Logo.jpg" />
+    <link rel="apple-touch-icon" sizes="192x192" href="./src/assets/LogoUi.png" />
     <link
       rel="icon"
       type="image/jpeg"
       sizes="32x32"
-      href="./src/assets/Logo.jpg"
+      href="./src/assets/LogoUi.png"
     />
     <link
       rel="icon"
       type="image/jpeg"
       sizes="16x16"
-      href="./src/assets/Logo.jpg"
+      href="./src/assets/LogoUi.png"
     />
-    <link rel="shortcut icon" href="./src/assets/Logo.jpg" type="image/jpeg" />
+    <link rel="shortcut icon" href="./src/assets/LogoUi.png" type="image/jpeg" />
     <!--=============== REMIXICONS ===============-->
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./src/index.css" />
+    <!-- <link rel="stylesheet" href="./src/index.css" /> -->
+    <style>
+      .preload {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ffffff;
+        z-index: 10;
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        transition: 500ms ease;
+      }
+      
+      .preload > * {
+        transition: 250ms ease;
+      }
+      
+      .preload.loaded > * {
+        opacity: 0;
+      }
+      
+      .icon-svg {
+        display: block;
+        width: 50px;
+        height: auto;
+        margin-right: 10px;
+      }
+      
+      .preload.loaded {
+        transition-delay: 250ms;
+        transform: translateY(100%);
+      }
+    </style>
 
     <title>Course Management System</title>
   </head>
   <body>
     <div id="root">
       <div class="preload" data-preaload>
-        <img src="./src/assets/Logo.jpg" class="icon-svg" alt="loader" />
+        <img src="./src/assets/LogoUi.png" class="icon-svg" alt="loader" />
       </div>
     </div>
     <script>

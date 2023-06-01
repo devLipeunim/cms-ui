@@ -55,44 +55,6 @@ h3 {
   text-align: center;
 }
 
-/*-----------------------------------*\
-  #PRELOAD
-\*-----------------------------------*/
-
-.preload {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ffffff;
-  z-index: 10;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  transition: 500ms ease;
-}
-
-.preload > * {
-  transition: 250ms ease;
-}
-
-.preload.loaded > * {
-  opacity: 0;
-}
-
-.icon-svg {
-  display: block;
-  width: 50px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.preload.loaded {
-  transition-delay: 250ms;
-  transform: translateY(100%);
-}
-
 .container_2 {
   margin-top: 60px;
   padding: 20px;

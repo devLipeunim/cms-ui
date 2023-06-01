@@ -1,4 +1,4 @@
-import logo from "./assets/Logo.jpg"
+import logo from "./assets/LogoUi.png"
 
 
 function Navbar() {
