@@ -91,7 +91,7 @@ const LoginForm = () => {
 
                 <div className="login__box-input">
                   <input
-                    type="number"
+                    type="text"
                     required
                     className="login__input"
                     placeholder=" "
