@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import Login from "./assets/Login.png"
 import Swal from 'sweetalert2'
@@ -20,13 +20,14 @@ const LoginForm = () => {
     setShowPassword(!showPassword);
   };
 
+
+
   const handleLogin = (e) => {
     e.preventDefault();
      let payload = {
           userName: username,
           password: password
      }
-     console.log(payload)
      setIsLoading(true)
      fetch(`${BaseUrl}/api/v1/admin/login`, {
           headers:{
@@ -43,9 +44,9 @@ const LoginForm = () => {
                     icon: 'success',
                     confirmButtonText: 'Thanks'
                }).then(() => {
-                    localStorage.setItem('token', data.token);
-                    setUserData(data.claims);
-                    localStorage.setItem('claims', JSON.stringify(data.claims));
+                    localStorage.setItem('token', data.data.token);
+                    setUserData(data.data.claims);
+                    localStorage.setItem('claims', JSON.stringify(data.data.claims));
                     navigate('/admin')
                     setMatricNumber('')
                })
@@ -59,7 +60,6 @@ const LoginForm = () => {
                })
                
           }
-          console.log(data)
      })
 
   };
@@ -93,10 +93,10 @@ const LoginForm = () => {
                     icon: 'success',
                     confirmButtonText: 'Thanks'
                }).then(() => {
-                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('token', data.data.token);
                     setUserData(data.claims);
-                    localStorage.setItem('claims', JSON.stringify(data.claims));
-                    navigate('/admin')
+                    localStorage.setItem('claims', JSON.stringify(data.data.claims));
+                    navigate('/timetables')
                     setMatricNumber('')
                })
           }else{ 

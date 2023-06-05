@@ -1,0 +1,135 @@
+/* Custom styles by Michael */
+.timetable__container{
+     padding: 20px 100px;
+}
+.timetable__grid{
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: 10px;
+     grid-auto-rows: minmax(100px, auto);
+}
+.timetable__notimetable{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+}
+.timetable__notimetable h2{
+     font-size: 18px;
+     font-weight: 500;
+}
+.timetable__notimetable button{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 10px 15px;
+     border-radius: 8px;
+     border: none;
+     background-color: indigo;
+     color: white;
+     font-size: 20px;
+     min-width: 120px;
+     text-transform: uppercase;
+     cursor: pointer;
+}
+.timetable__notimetable-imgdiv{
+     width: 100%;
+     max-width: 750px;
+     height: 100%;
+}
+.timetable__notimetable-imgdiv img{
+     width: 100%;
+     height: 100%;
+     object-fit: contain;
+}
+
+
+.timetable__form{
+     /* display: flex;
+     flex-direction: column; */
+     gap: 2rem;
+     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+     width: 600px;
+     margin: 10px auto;
+     border-radius: 10px;
+     height: auto;
+     padding: 15px;
+}
+.timetable__form-wrapper{
+     display: flex;
+     flex-direction: column;
+     margin: 15px 10px;
+}
+.timetable__form-wrapper input, .timetable__form-wrapper select {
+     flex-grow: 1;
+     padding-block: 0.8rem;
+     background: none;
+     border: 1.2px solid gray;
+     border-radius: 4px;
+     position: relative;
+     z-index: 1;
+     
+}
+.timetable__form-wrapper input{
+     padding-left: 5px;
+     padding-right: 5px;
+}
+.timetable__form-wrapper label{
+     text-align: left !important;
+}
+.timetable__form-wrapper input:focus, .timetable__form-wrapper select:focus{
+     outline: none;
+}
+.timetable__form-buttonDiv{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 2rem;
+}
+.timtable__title{
+     font-size: 35px;
+     text-align: center;
+}
+.timetable__grid{
+     display: grid;
+     /* grid-template-columns: repeat(auto-fit, minmax(370px, auto)); */
+     grid-template-columns: repeat(2, 1fr);
+     gap: 2rem;
+     align-items: center;
+     margin-top: 4.5rem;
+}
+.timetable__grid-card{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+     padding: 10px;
+     min-height: 200px;
+}
+.timetable__create{
+     cursor: pointer;
+     /* background-color: indigo !important; */
+     background: linear-gradient(45deg, indigo, black);
+     color: white !important;
+}
+
+.timetable__course-text{
+     background: linear-gradient(45deg, black, indigo);
+     background-clip: text;
+     -webkit-background-clip: text;
+     color: transparent;
+     font-size: 17px;
+     font-weight: 900;
+     text-align: center;
+     text-transform: uppercase;
+}
+
+@media (max-width: 990px){
+     .timetable__grid{
+          grid-template-columns: repeat(1, 1fr)
+     }
+     .timetable__container{
+          padding: 20px;
+     }
+}

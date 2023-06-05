@@ -1,0 +1,15 @@
+.students__department-div{
+     display: flex;
+     justify-content: center;
+     flex-wrap: wrap;
+     gap: 1rem;
+     margin: 150px auto 10px;
+}
+.students__department-div select{
+     padding: 10px;
+     border: 1px solid gray;
+     border-radius: 4px;
+}
+.students__department-div select:focus{
+     outline: none;
+}

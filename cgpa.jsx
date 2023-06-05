@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Navbar from "./src/Navbar";
 const CourseTable = ({ courses, removeCourse }) => {
   return (
     <table
@@ -111,7 +111,8 @@ const Modal = ({ courses, calculateCGPA }) => {
 
   return (
     <div className="">
-      <h2>Calculate CGPA</h2>
+     <Navbar/>
+      <h2 style={{}}>Calculate CGPA</h2>
       <form onSubmit={handleSubmit}>
         <div className="courseForm">
           <div>
