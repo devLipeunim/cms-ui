@@ -91,16 +91,20 @@ const TimetableDetails = () => {
                     <tbody>
                     {timetable?.courses?.map((course, index) => (
                          <tr key={index}>
-                         <td
-                              style={{
-                              padding: "10px",
-                              border: "1px solid #ccc",
-                              fontWeight: "bold",
-                              }}
-                              
-                              >
-                              {course.day}
-                              </td>
+                         {index === 0 ||
+                              course.day !== timetable.courses[index - 1].day ? (
+                                   <td
+                                   style={{
+                                   padding: "10px",
+                                   border: "1px solid #ccc",
+                                   fontWeight: "bold",
+                                   }}
+                                   rowSpan={timetable.courses.filter((c) => c.day === course.day).length}
+                                   
+                                   >
+                                   {course.day}
+                                   </td>
+                              ) : null}
                          <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                               {course.course}
                          </td>
