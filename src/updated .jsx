@@ -382,7 +382,7 @@ const Updated = () => {
                     <div className="timetable__notimetable-imgdiv">
                          <img src={emptyFolder} alt="empty folder" />
                     </div>
-                    <h2>You don't have any timetable</h2>
+                    <h2>You don&#39;t have any timetable!!</h2>
                     <button onClick={() => {setShowForm(true)}}>Create One</button>
                </div>}
               {showForm&&<form action="" className="timetable__form">
