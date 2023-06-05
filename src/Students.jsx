@@ -25,7 +25,13 @@ const  Students = () => {
                               confirmButtonText: 'Close'
                          })
                     }else{
-                         setTimetable(data.data)
+                         setTimetable(data.data);
+                         Swal.fire({
+                              title: 'Success!',
+                              text:`Here is the timetabel for ${department} department`,
+                              icon: 'success',
+                              confirmButtonText: 'Close'
+                         })
                     }
                     
                })
