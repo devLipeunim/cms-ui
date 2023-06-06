@@ -63,277 +63,293 @@ const Students = () => {
   return (
     <div>
       <Navbar />
-      <div className="students__department-div container_2">
-        <select
-          name=""
-          id=""
-          onChange={(e) => {
-            setDepartment(e.target.value);
-          }}
-        >
-          <option value="">Select Department</option>
-          {availableDepartments.map((department, index) => (
-            <option key={index} value={department}>
-              {department}
-            </option>
-          ))}
-        </select>
-        <button onClick={generateTimetableByDepartment}>
-          Generate Timetable
-        </button>
-      </div>
-      {timetable?.length > 0 &&
-        timetable?.map((element, index) => (
-          <div id={"content-" + index} key={index}>
-            <h3>{element.title}</h3>
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                marginTop: "20px",
-              }}
-              className="timetable"
-            >
-              <thead>
-                <tr>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Day
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Course
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Lecturer
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Assisting Lecturer
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Start Time
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    End Time
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Venue
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {element.courses.map((course, index) => (
-                  <tr key={index}>
-                    {index === 0 ||
-                    course.day !== element.courses[index - 1].day ? (
-                      <td
+      <div className="container_2">
+        <div className="students__department-div">
+          <select
+            name=""
+            id=""
+            onChange={(e) => {
+              setDepartment(e.target.value);
+            }}
+          >
+            <option value="">Select Department</option>
+            {availableDepartments.map((department, index) => (
+              <option key={index} value={department}>
+                {department}
+              </option>
+            ))}
+          </select>
+          <button onClick={generateTimetableByDepartment}>
+            Generate Timetable
+          </button>
+        </div>
+        {
+          timetable?.length > 0 &&
+            timetable?.map((element, index) => (
+              <div id={"content-" + index} key={index}>
+                <h3>{element.title}</h3>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    marginTop: "20px",
+                  }}
+                  className="timetable"
+                >
+                  <thead>
+                    <tr>
+                      <th
                         style={{
                           padding: "10px",
                           border: "1px solid #ccc",
-                          fontWeight: "bold",
+                          backgroundColor: "#f2f2f2",
                         }}
-                        rowSpan={
-                          element.courses.filter((c) => c.day === course.day)
-                            .length
-                        }
                       >
-                        {course.day}
-                      </td>
-                    ) : null}
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.course}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.supervisors}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.assisting_supervisors}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {formatTime(course.start_time)}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {formatTime(course.end_time)}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.venue}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <button
-              onClick={() => {
-                export2Word(`content-${index}`, "Timetable");
-              }}
-            >
-              Export to DOCX
-            </button>
-          </div>
-        ))
-        // <div id="content">
-        //      <h3>{title}</h3>
-        //      <table
-        //      style={{
-        //      width: "100%",
-        //      borderCollapse: "collapse",
-        //      marginTop: "20px",
-        //      }}
-        //      className="timetable"
-        //      >
-        //      <thead>
-        //      <tr>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           Day
-        //           </th>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           Course
-        //           </th>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           Lecturer
-        //           </th>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           Assisting Lecturer
-        //           </th>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           Start Time
-        //           </th>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           End Time
-        //           </th>
-        //           <th
-        //           style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                backgroundColor: "#f2f2f2",
-        //           }}
-        //           >
-        //           Venue
-        //           </th>
-        //      </tr>
-        //      </thead>
-        //      <tbody>
-        //      {timetable.map((course, index) => (
-        //           <tr key={index}>
-        //           {index === 0 ||
-        //           course.day !== timetable[index - 1].day ? (
-        //                <td
-        //                style={{
-        //                padding: "10px",
-        //                border: "1px solid #ccc",
-        //                fontWeight: "bold",
-        //                }}
-        //                rowSpan={
-        //                     timetable.filter((c) => c.day === course.day)
-        //                     .length
-        //                }
-        //                >
-        //                {course.day}
-        //                </td>
-        //           ) : null}
-        //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-        //                {course.course}
-        //           </td>
-        //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-        //                {course.supervisors}
-        //           </td>
-        //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-        //                {course.assisting_supervisors}
-        //           </td>
-        //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-        //                {formatTime(course.start_time)}
-        //           </td>
-        //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-        //                {formatTime(course.end_time)}
-        //           </td>
-        //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-        //                {course.venue}
-        //           </td>
-        //           </tr>
-        //      ))}
-        //      </tbody>
-        //      </table>
-        //      <button onClick={() => {export2Word("content", "Timetable");}}>
-        //           Export to DOCX
-        //      </button>
-        // </div>
-      }
+                        Day
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        Course
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        Lecturer
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        Assisting Lecturer
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        Start Time
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        End Time
+                      </th>
+                      <th
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        Venue
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {element.courses.map((course, index) => (
+                      <tr key={index}>
+                        {index === 0 ||
+                        course.day !== element.courses[index - 1].day ? (
+                          <td
+                            style={{
+                              padding: "10px",
+                              border: "1px solid #ccc",
+                              fontWeight: "bold",
+                            }}
+                            rowSpan={
+                              element.courses.filter(
+                                (c) => c.day === course.day
+                              ).length
+                            }
+                          >
+                            {course.day}
+                          </td>
+                        ) : null}
+                        <td
+                          style={{ padding: "10px", border: "1px solid #ccc" }}
+                        >
+                          {course.course}
+                        </td>
+                        <td
+                          style={{ padding: "10px", border: "1px solid #ccc" }}
+                        >
+                          {course.supervisors}
+                        </td>
+                        <td
+                          style={{ padding: "10px", border: "1px solid #ccc" }}
+                        >
+                          {course.assisting_supervisors}
+                        </td>
+                        <td
+                          style={{ padding: "10px", border: "1px solid #ccc" }}
+                        >
+                          {formatTime(course.start_time)}
+                        </td>
+                        <td
+                          style={{ padding: "10px", border: "1px solid #ccc" }}
+                        >
+                          {formatTime(course.end_time)}
+                        </td>
+                        <td
+                          style={{ padding: "10px", border: "1px solid #ccc" }}
+                        >
+                          {course.venue}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <button
+                  onClick={() => {
+                    export2Word(`content-${index}`, "Timetable");
+                  }}
+                >
+                  Export to DOCX
+                </button>
+              </div>
+            ))
+          // <div id="content">
+          //      <h3>{title}</h3>
+          //      <table
+          //      style={{
+          //      width: "100%",
+          //      borderCollapse: "collapse",
+          //      marginTop: "20px",
+          //      }}
+          //      className="timetable"
+          //      >
+          //      <thead>
+          //      <tr>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           Day
+          //           </th>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           Course
+          //           </th>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           Lecturer
+          //           </th>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           Assisting Lecturer
+          //           </th>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           Start Time
+          //           </th>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           End Time
+          //           </th>
+          //           <th
+          //           style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                backgroundColor: "#f2f2f2",
+          //           }}
+          //           >
+          //           Venue
+          //           </th>
+          //      </tr>
+          //      </thead>
+          //      <tbody>
+          //      {timetable.map((course, index) => (
+          //           <tr key={index}>
+          //           {index === 0 ||
+          //           course.day !== timetable[index - 1].day ? (
+          //                <td
+          //                style={{
+          //                padding: "10px",
+          //                border: "1px solid #ccc",
+          //                fontWeight: "bold",
+          //                }}
+          //                rowSpan={
+          //                     timetable.filter((c) => c.day === course.day)
+          //                     .length
+          //                }
+          //                >
+          //                {course.day}
+          //                </td>
+          //           ) : null}
+          //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+          //                {course.course}
+          //           </td>
+          //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+          //                {course.supervisors}
+          //           </td>
+          //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+          //                {course.assisting_supervisors}
+          //           </td>
+          //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+          //                {formatTime(course.start_time)}
+          //           </td>
+          //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+          //                {formatTime(course.end_time)}
+          //           </td>
+          //           <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+          //                {course.venue}
+          //           </td>
+          //           </tr>
+          //      ))}
+          //      </tbody>
+          //      </table>
+          //      <button onClick={() => {export2Word("content", "Timetable");}}>
+          //           Export to DOCX
+          //      </button>
+          // </div>
+        }
+      </div>
     </div>
   );
 };
