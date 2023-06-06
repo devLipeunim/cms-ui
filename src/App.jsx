@@ -3,7 +3,7 @@ import TimetableDetails from "./TimetableDetails.jsx";
 import EditTimetable from "./EditTimetable.jsx";
 import Updated from "./updated .jsx";
 import Students from "./Students.jsx";
-import CGPACalculator from "../cgpa.jsx";
+import CGPACalculator from "./CGPACalculator.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginForm from "./SignLogin.jsx";
 import "./App.css";
