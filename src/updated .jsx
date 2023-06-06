@@ -155,8 +155,6 @@ const Updated = () => {
     setFinishTime("");
     setPopulation("");
   };
-     setCourse(""); setLecturer(''); setAstLecturer(""); setDay(""); setStartTime(""); setFinishTime(""); setPopulation(""); setManualVenue("");
-  }
   // Function for adding a new course
   const addCourse = (e) => {
     e.preventDefault();
