@@ -69,7 +69,7 @@ const TimetableDetails = () => {
                       backgroundColor: "#f2f2f2",
                     }}
                   >
-                    Assisting Lecturer
+                    Assisting Staff
                   </th>
                   <th
                     style={{
