@@ -112,6 +112,7 @@ const Updated = () => {
   const [manualVenue, setManualVenue] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [courseData, setCourseData] = useState([]);
+  const [newCourseData, setNewCourseData] = useState([])
   const [allocatedTimetable, setAllocatedTimetable] = useState([]);
   useEffect(() => {
     fetch(`${BaseUrl}/api/v1/venue`)
@@ -154,6 +155,8 @@ const Updated = () => {
     setFinishTime("");
     setPopulation("");
   };
+     setCourse(""); setLecturer(''); setAstLecturer(""); setDay(""); setStartTime(""); setFinishTime(""); setPopulation(""); setManualVenue("");
+  }
   // Function for adding a new course
   const addCourse = (e) => {
     e.preventDefault();
@@ -279,7 +282,7 @@ const Updated = () => {
       Saturday: { CBN: [], KDLT: [], NFLT: [], CLT: [] },
     };
 
-    const updatedAllocatedTimetable = courseData.map((row) => {
+    const updatedAllocatedTimetable = newCourseData.map((row) => {
       const {
         course,
         supervisors,
@@ -288,6 +291,7 @@ const Updated = () => {
         end_time,
         day,
         capacity,
+        venue
       } = row;
       const availableVenues = [];
 
@@ -317,6 +321,8 @@ const Updated = () => {
           start_time,
           end_time,
         });
+        console.log(manualVenue)
+        manualVenue !== '' ? console.log(manualVenue) : console.log(selectedVenue.name)
         return {
           course,
           supervisors,
@@ -327,6 +333,7 @@ const Updated = () => {
           capacity,
           venue: manualVenue !== "" ? manualVenue : selectedVenue.name,
         };
+        
       }
 
       return {
