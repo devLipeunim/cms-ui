@@ -160,7 +160,7 @@ label {
 .courseForm input,
 .courseForm select {
   display: block;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   /* background: none; */
   margin-bottom: 1rem;
   font-size: 1.3rem;
