@@ -19,131 +19,7 @@ const TimetableDetails = () => {
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <div className="container_2">
-        {timetable !== {} && (
-          <div id={"content"} className="timtable__details-container">
-            <h3>{timetable.title}</h3>
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                marginTop: "20px",
-              }}
-              className="timetable"
-            >
-              <thead>
-                <tr>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Day
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Course
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Lecturer
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Assisting Staff
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Start Time
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    End Time
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  >
-                    Venue
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {timetable?.courses?.map((course, index) => (
-                  <tr key={index}>
-                    <td
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #ccc",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {course.day}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.course}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.supervisors}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.assisting_supervisors}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {formatTime(course.start_time)}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {formatTime(course.end_time)}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                      {course.venue}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <button
-              onClick={() => {
-                export2Word(`content`, "Timetable");
-              }}
-            >
-              Export to DOCX
-            </button>
-          </div>
-        )}
-      </div>
+    <div className="container_2">
       <Navbar />
       {timetable !== {} && (
         <div id={"content"} className="timtable__details-container">
@@ -192,7 +68,7 @@ const TimetableDetails = () => {
                     backgroundColor: "#f2f2f2",
                   }}
                 >
-                  Assisting Lecturer
+                  Assisting Staff
                 </th>
                 <th
                   style={{

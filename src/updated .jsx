@@ -92,7 +92,6 @@ export const availableDays = [
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
 
 const Updated = () => {
@@ -112,7 +111,7 @@ const Updated = () => {
   const [manualVenue, setManualVenue] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [courseData, setCourseData] = useState([]);
-  const [newCourseData, setNewCourseData] = useState([])
+  const [newCourseData, setNewCourseData] = useState([]);
   const [allocatedTimetable, setAllocatedTimetable] = useState([]);
   useEffect(() => {
     fetch(`${BaseUrl}/api/v1/venue`)
@@ -154,6 +153,7 @@ const Updated = () => {
     setStartTime("");
     setFinishTime("");
     setPopulation("");
+    setManualVenue("");
   };
   // Function for adding a new course
   const addCourse = (e) => {
@@ -167,19 +167,36 @@ const Updated = () => {
       day !== "" &&
       population !== ""
     ) {
-      setCourseData([
-        ...courseData,
-        {
-          course: course,
-          supervisors: lecturer,
-          assisting_supervisors: astLecturer,
-          start_time: startTime,
-          end_time: finishTime,
-          day: day,
-          capacity: population,
-        },
-      ]);
-      if (courseData.length <= 1) {
+      if (manualVenue !== "") {
+        setNewCourseData([
+          ...newCourseData,
+          {
+            course: course,
+            supervisors: lecturer,
+            assisting_supervisors: astLecturer,
+            start_time: startTime,
+            end_time: finishTime,
+            day: day,
+            capacity: population,
+            venue: manualVenue,
+          },
+        ]);
+      } else {
+        setNewCourseData([
+          ...newCourseData,
+          {
+            course: course,
+            supervisors: lecturer,
+            assisting_supervisors: astLecturer,
+            start_time: startTime,
+            end_time: finishTime,
+            day: day,
+            capacity: population,
+          },
+        ]);
+      }
+
+      if (newCourseData.length <= 1) {
         Swal.fire({
           title: "Success!",
           text:
@@ -209,7 +226,7 @@ const Updated = () => {
 
   const handleFinish = (e) => {
     e.preventDefault();
-    if (courseData.length >= 1 && title !== "") {
+    if (newCourseData.length >= 1 && title !== "") {
       Swal.fire({
         title: "Are you done?",
         text: "Have you added all courses for this timetable? 😏",
@@ -289,7 +306,7 @@ const Updated = () => {
         end_time,
         day,
         capacity,
-        venue
+        venue,
       } = row;
       const availableVenues = [];
 
@@ -319,8 +336,10 @@ const Updated = () => {
           start_time,
           end_time,
         });
-        console.log(manualVenue)
-        manualVenue !== '' ? console.log(manualVenue) : console.log(selectedVenue.name)
+        console.log(manualVenue);
+        manualVenue !== ""
+          ? console.log(manualVenue)
+          : console.log(selectedVenue.name);
         return {
           course,
           supervisors,
@@ -329,9 +348,8 @@ const Updated = () => {
           end_time,
           day,
           capacity,
-          venue: manualVenue !== "" ? manualVenue : selectedVenue.name,
+          venue: venue ? venue : selectedVenue.name,
         };
-        
       }
 
       return {
@@ -372,6 +390,7 @@ const Updated = () => {
               confirmButtonText: "Thanks",
             });
             setAllocatedTimetable(updatedAllocatedTimetable);
+            setShowForm(false);
           } else {
             Swal.fire({
               title: "Error!",
@@ -483,6 +502,7 @@ const Updated = () => {
                   ))}
                 </select>
               </div>
+
               <div className="timetable__form-wrapper">
                 <label htmlFor="">Assisting Staff</label>
                 <input
@@ -580,7 +600,7 @@ const Updated = () => {
                 setShowForm(true);
               }}
             >
-              <h4>create a new Timetable</h4>
+              <h4>create a new Timetable +</h4>
             </div>
             {courseData.map((course, index) => (
               <div className="timetable__grid-card" key={index}>
@@ -615,138 +635,6 @@ const Updated = () => {
           </div>
         )}
       </div>
-
-      {allocatedTimetable.length > 0 && (
-        <div id="content">
-          <h3>Allocated Timetable</h3>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "20px",
-            }}
-            className="timetable"
-          >
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Day
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Course
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Lecturer
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Assisting Lecturer
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Start Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  End Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Venue
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {allocatedTimetable.map((course, index) => (
-                <tr key={index}>
-                  {index === 0 ||
-                  course.day !== allocatedTimetable[index - 1].day ? (
-                    <td
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #ccc",
-                        fontWeight: "bold",
-                      }}
-                      rowSpan={
-                        allocatedTimetable.filter((c) => c.day === course.day)
-                          .length
-                      }
-                    >
-                      {course.day}
-                    </td>
-                  ) : null}
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.course}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.supervisors}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.assisting_supervisors}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(course.start_time)}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(course.end_time)}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.venue}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {allocatedTimetable.length > 0 && (
-        <button
-          onClick={() => {
-            export2Word("content", "Timetable");
-          }}
-        >
-          Export to DOCX
-        </button>
-      )}
     </div>
   );
 };
