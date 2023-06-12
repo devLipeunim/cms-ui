@@ -119,7 +119,7 @@ const LoginForm = () => {
       <div className={isAdmin ? "login admin" : "login"} id="loginForm">
         <form onSubmit={isAdmin? handleLogin: handleStudentLogin} className="login__form">
           <img src={Logo} className="uiLogo" alt="Ui Logo" />
-          <h1 className="login__title">{isAdmin ? "Admin" : "Student"}</h1>
+          <h1 className="login__title">{isAdmin ? "ADMIN" : "STUDENT"}</h1>
 
           <div className="login__content">
             {isAdmin ? (
