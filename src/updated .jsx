@@ -187,13 +187,13 @@ const Updated = () => {
                })
                clearForm();
          }else{
-          Swal.fire({
-               title: 'Success!',
-               text: 'Course has been added!',
-               icon: 'success',
-               confirmButtonText: 'Ok'
-          })
-          clearForm();
+               Swal.fire({
+                    title: 'Success!',
+                    text: 'Course has been added!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+               })
+               clearForm();
          }
      }else{
           Swal.fire({

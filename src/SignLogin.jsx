@@ -16,6 +16,17 @@ const LoginForm = () => {
   const[isLoading, setIsLoading] = useState(false)
   const BaseUrl = 'https://cms-api-o973.onrender.com'
 
+  useEffect(() => {
+     let token = localStorage.getItem('token')
+     let claims = JSON.parse(localStorage.getItem('claims'))
+     if(token&& claims.userName){
+          navigate('/admin')
+     }else if(token && claims.matricNumber){
+          navigate('/timetables')
+     }
+  }, [])
+  
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
