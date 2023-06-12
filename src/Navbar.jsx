@@ -31,9 +31,9 @@ function Navbar() {
      } 
   return (
     <>
-      <header className="active" >
+      <header className="active">
         <div className={`${styles.header} container`}>
-          <img src={logo} className='icon-svg' alt="UI Logo" />
+          <img src={logo} className="icon-svg" alt="UI Logo" />
           <>
           <p className={styles.username}><strong>Hi {claims.userName? claims.userName: claims.name}</strong></p>
           <nav>
@@ -62,7 +62,11 @@ function Navbar() {
         
           </>}
         </div>
-        <AiOutlineBars fontSize={40} className={styles.bars} onClick={() => setOpen(!open)}/>
+        <AiOutlineBars
+          fontSize={40}
+          className={styles.bars}
+          onClick={() => setOpen(!open)}
+        />
       </header>
     </>
   );

@@ -243,7 +243,7 @@ function EditTimetable() {
                          backgroundColor: "#f2f2f2",
                     }}
                     >
-                    Assisting Lecturer
+                    Assisting Staff
                     </th>
                     <th
                     style={{
@@ -362,7 +362,7 @@ function EditTimetable() {
 
                         </div>
                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Assisting Lecturer</label>
+                              <label htmlFor="">Assisting Staff</label>
                               <input type="text" value={editAstLecturer} onChange={(e) =>{setEditAstLecturer(e.target.value)}} />
                         </div>
                         <div className="timetable__form-wrapper">
