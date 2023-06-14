@@ -7,8 +7,8 @@ import Change from './Change.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Change/>
-    {/* <App /> */}
+    {/* <Change/> */}
+    <App />
 
   </React.StrictMode>,
 )
