@@ -84,20 +84,55 @@ const Change = () => {
 
     document.body.removeChild(downloadLink);
   }
-  // Function for adding a new course
+  // Function for adding a new course forward
   const addCourse = () => {
-    setCourseData([
-      ...courseData,
-      {
-        course: "",
-        supervisors: "",
-        assisting_supervisors: "",
-        start_time: "",
-        end_time: "",
-        day: "",
-        capacity: "",
-      },
-    ]);
+    const newCourse = {
+      course: "",
+      supervisors: "",
+      assisting_supervisors: "",
+      start_time: "",
+      end_time: "",
+      day: "",
+      capacity: "",
+    };
+
+    // Find the index of the forward course form
+    const afterIndex = courseData.length + 1;
+
+    // Insert the new course after the previous course form
+    const updatedCourseData = [
+      ...courseData.slice(0, afterIndex),
+      newCourse,
+      ...courseData.slice(afterIndex),
+    ];
+
+    setCourseData(updatedCourseData);
+    
+  };
+
+  // Function for adding a new course backwards
+  const addCoursePrev = () => {
+    const newCourse = {
+      course: "",
+      supervisors: "",
+      assisting_supervisors: "",
+      start_time: "",
+      end_time: "",
+      day: "",
+      capacity: "",
+    };
+
+    // Find the index of the previous course form
+    const prevIndex = courseData.length - 1;
+
+    // Insert the new course before the previous course form
+    const updatedCourseData = [
+      ...courseData.slice(0, prevIndex),
+      newCourse,
+      ...courseData.slice(prevIndex),
+    ];
+
+    setCourseData(updatedCourseData);
   };
 
   // Function for removing a course
@@ -296,7 +331,7 @@ const Change = () => {
 
   const updateCourse = (index) => {
     const updatedCourseData = [...courseData];
-    
+
     updatedCourseData[index] = {
       course: newCourse.course,
       supervisors: newCourse.supervisors,
@@ -307,7 +342,7 @@ const Change = () => {
       capacity: newCourse.capacity,
       venue: newCourse.venue,
     };
-    
+
     setCourseData(updatedCourseData);
 
     // Update the corresponding course in the allocated timetable
@@ -659,10 +694,12 @@ const Change = () => {
                         border: "1px solid #ccc",
                         fontWeight: "bold",
                       }}
-                      rowSpan={
-                        allocatedTimetable.filter((c) => c.day === course.day)
-                          .length
-                      }
+                      rowSpan={courseData.filter((c) => c.day === course.day).length}
+
+                      // rowSpan={
+                      //   allocatedTimetable.filter((c) => c.day === course.day)
+                      //     .length
+                      // }
                     >
                       {course.day}
                     </td>
@@ -703,7 +740,7 @@ const Change = () => {
                         <button onClick={() => removeCourse(index)}>
                           Remove
                         </button>
-                        <button onClick={addCourse}>Add Course</button>
+                        <button onClick={addCoursePrev}>Add Course Prev.to this</button>
                       </div>
                     )}
                   </td>

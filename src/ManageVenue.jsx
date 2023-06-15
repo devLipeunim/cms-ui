@@ -84,6 +84,7 @@ function ManageVenue() {
     updatedVenues.splice(index, 1);
     setVenues(updatedVenues);
   };
+  
   // Function for updating a venue and its capacity
   const updateVenue = () => {
     if (newVenue.name !== "" && newVenue.capacity !== 0) {

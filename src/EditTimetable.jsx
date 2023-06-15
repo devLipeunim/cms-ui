@@ -42,114 +42,33 @@ function EditTimetable() {
       });
   }, []);
 
-  const clearForm = () => {
-    setEditCourse("");
-    setEditLecturer("");
-    setEditAstLecturer("");
-    setEditDay("");
-    setEditStartTime("");
-    setEditFinishTime("");
-    setEditPopulation("");
-  };
+  /// state variables to hold the edited course details:
+  const [editCourseData, setEditCourseData] = useState({
+    course: "",
+    supervisors: "",
+    assisting_supervisors: "",
+    start_time: "",
+    end_time: "",
+    day: "",
+    capacity: "",
+    venue: "",
+  });
   // Function for adding a new course
   const addCourse = (e) => {
     e.preventDefault();
-    if (
-      course !== "" &&
-      lecturer !== "" &&
-      astLecturer !== "" &&
-      startTime !== "" &&
-      finishTime !== "" &&
-      day !== "" &&
-      population !== ""
-    ) {
-      setCourseData([
-        ...courseData,
-        {
-          course: course,
-          supervisors: lecturer,
-          assisting_supervisors: astLecturer,
-          start_time: startTime,
-          end_time: finishTime,
-          day: day,
-          capacity: population,
-        },
-      ]);
-      if (courseData.length <= 1) {
-        Swal.fire({
-          title: "Success!",
-          text:
-            "Course has been added. Now you can keep adding as much as you want.",
-          icon: "success",
-          confirmButtonText: "Thanks",
-        });
-        clearForm();
-      } else {
-        Swal.fire({
-          title: "Success!",
-          text: "Course has been added!",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-        clearForm();
-      }
-    } else {
-      Swal.fire({
-        title: "Error!",
-        text: "Kindly fill all fields 😒",
-        icon: "error",
-        confirmButtonText: "Close",
-      });
-    }
-  };
-
-  // Function for adding a venue and its capacity
-  const addVenue = () => {
-    if (newVenue.name !== "" && newVenue.capacity !== 0) {
-      let payload = {
-        name: newVenue.name,
-        capacity: newVenue.capacity,
-      };
-      fetch(`${BaseUrl}/api/v1/venue/create`, {
-        headers: {
-          "content-type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(payload),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          if (data.status === "Ok") {
-            Swal.fire({
-              title: "Success!",
-              text: data.message,
-              icon: "success",
-              confirmButtonText: "Thanks",
-            });
-            setVenues([
-              ...venues,
-              { name: newVenue.name, capacity: newVenue.capacity },
-            ]);
-            setNewVenue({ name: "", capacity: 0 });
-          } else {
-            Swal.fire({
-              title: "Error!",
-              text: data.message,
-              icon: "error",
-              confirmButtonText: "Close",
-            });
-          }
-        });
-    } else {
-      Swal.fire({
-        title: "Error!",
-        text: "Kindly input venue and capacity",
-        icon: "error",
-        confirmButtonText: "Close",
-      });
-    }
+    const updatedCourses = [...timetable.courses];
+    updatedCourses.push(editCourseData);
+    setTimetable({ ...timetable, courses: updatedCourses });
+    setEditCourseData({
+      course: "",
+      supervisors: "",
+      assisting_supervisors: "",
+      start_time: "",
+      end_time: "",
+      day: "",
+      capacity: "",
+      venue: "",
+    });
   };
 
   // Function for editing a course
@@ -167,34 +86,54 @@ function EditTimetable() {
       venue,
     } = timetable.courses[index];
     console.log(timetable.courses[index]);
-    setEditDay(day);
-    setEditCourse(course);
-    setEditAstLecturer(assisting_supervisors);
-    setEditLecturer(supervisors);
-    setEditFinishTime(end_time);
-    setEditedVenueCapacity(capacity);
-    setEditStartTime(start_time);
-    setEditPopulation(capacity);
-    setEditVenues(venue);
-  };
-  // Function for removing a venue
-  const handleVenueRemove = (index) => {
-    const updatedVenues = [...venues];
-    updatedVenues.splice(index, 1);
-    setVenues(updatedVenues);
-  };
-  // Function for updating a venue and its capacity
-  const updateVenue = () => {
-    setNewVenue({
-      day: editDay,
-      course: editCourse,
-      assisting_supervisors: editAstLecturer,
-      supervisors: editLecturer,
-      end_time: editFinishTime,
-      start_time: editStartTime,
-      capacity: editPopulation,
+    setEditCourseData({
+      course,
+      supervisors,
+      assisting_supervisors,
+      start_time,
+      end_time,
+      day,
+      capacity,
+      venue,
     });
-    timetable.courses[editIndex] = newVenue;
+  };
+  // a Cancel button to discard the changes and revert to the original course details:
+  const cancelEdit = () => {
+    setEditIndex(-1);
+    setEditCourseData({
+      course: "",
+      supervisors: "",
+      assisting_supervisors: "",
+      start_time: "",
+      end_time: "",
+      day: "",
+      capacity: "",
+      venue: "",
+    });
+  };
+  //  the removeCourse function to remove the course from the timetable:
+  const removeCourse = (index) => {
+    const updatedCourses = [...timetable.courses];
+    updatedCourses.splice(index, 1);
+    setTimetable({ ...timetable, courses: updatedCourses });
+  };
+
+  // Function for updating a course and its details
+  const updateVenue = () => {
+    if (editIndex !== -1) {
+      const updatedCourses = [...timetable.courses];
+      updatedCourses[editIndex] = {
+        ...updatedCourses[editIndex],
+        ...editCourseData,
+      };
+      setTimetable({
+        ...timetable,
+        courses: updatedCourses,
+      });
+      setEditIndex(-1);
+      // Call an API to update the course details in the database
+    }
+
     //  if (newVenue.name !== "" && newVenue.capacity !== 0) {
     //       let payload ={
     //            name: newVenue.name,
@@ -354,9 +293,12 @@ function EditTimetable() {
                         border: "1px solid #ccc",
                         fontWeight: "bold",
                       }}
+                      
+                      // rowSpan={timetable.courses.reduce((count, c) => c.day === course.day ? count + 1 : count, 0)}
+
                       rowSpan={
-                        timetable.courses.filter((c) => c.day === course.day)
-                          .length
+                        timetable.courses.filter((c) => c.day === course.day).length
+                          
                       }
                     >
                       {course.day}
@@ -382,8 +324,20 @@ function EditTimetable() {
                   </td>
                   <td style={{ padding: "10px", border: "1px solid #ccc" }}>
                     <div className="aButton">
-                      <button onClick={() => editVenue(index)}>Edit</button>
-                      <button>Remove</button>
+                      {course.population === editCourseData.population &&
+                      editIndex === index ? (
+                        <div className="aButton">
+                          <button onClick={updateVenue}>Save</button>
+                          <button onClick={cancelEdit}>Cancel</button>
+                        </div>
+                      ) : (
+                        <div className="aButton">
+                          <button onClick={() => editVenue(index)}>Edit</button>
+                          <button onClick={() => removeCourse(index)}>
+                            Remove
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -398,9 +352,12 @@ function EditTimetable() {
           <div className="timetable__form-wrapper">
             <label htmlFor="">Course</label>
             <select
-              value={editCourse}
+              value={editCourseData.course}
               onChange={(e) => {
-                setEditCourse(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  course: e.target.value,
+                });
               }}
             >
               <option value="" hidden>
@@ -416,9 +373,12 @@ function EditTimetable() {
           <div className="timetable__form-wrapper">
             <label htmlFor="">Lecturer</label>
             <select
-              value={editLecturer}
+              value={editCourseData.supervisors}
               onChange={(e) => {
-                setEditLecturer(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  supervisors: e.target.value,
+                });
               }}
             >
               <option value="" hidden>
@@ -435,9 +395,12 @@ function EditTimetable() {
             <label htmlFor="">Assisting Staff</label>
             <input
               type="text"
-              value={editAstLecturer}
+              value={editCourseData.assisting_supervisors}
               onChange={(e) => {
-                setEditAstLecturer(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  assisting_supervisors: e.target.value,
+                });
               }}
             />
           </div>
@@ -446,9 +409,12 @@ function EditTimetable() {
             <input
               type="time"
               id="stimepicker"
-              value={editStartTime}
+              value={editCourseData.start_time}
               onChange={(e) => {
-                setEditStartTime(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  start_time: e.target.value,
+                });
               }}
             />
           </div>
@@ -457,9 +423,12 @@ function EditTimetable() {
             <input
               type="time"
               id="ftimepicker"
-              value={editFinishTime}
+              value={editCourseData.end_time}
               onChange={(e) => {
-                setEditFinishTime(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  end_time: e.target.value,
+                });
               }}
             />
           </div>
@@ -468,9 +437,12 @@ function EditTimetable() {
             <select
               name=""
               id=""
-              value={editDay}
+              value={editCourseData.day}
               onChange={(e) => {
-                setEditDay(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  day: e.target.value,
+                });
               }}
             >
               <option value="" hidden>
@@ -483,44 +455,44 @@ function EditTimetable() {
               ))}
             </select>
           </div>
-          <div className="timetable__form-wrapper">
+          {/* <div className="timetable__form-wrapper">
             <label htmlFor="">Population</label>
             <input
               type="number"
-              value={editPopulation}
+              value={editCourseData.population}
               onChange={(e) => {
-                setEditPopulation(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  population: e.target.value,
+                });
               }}
             />
-          </div>
+          </div> */}
           <div className="timetable__form-wrapper">
             <label htmlFor="">Venue(optional)</label>
             <input
-              type="number"
-              value={editVenues}
+              type="text"
+              value={editCourseData.venue}
               onChange={(e) => {
-                setEditVenues(e.target.value);
+                setEditCourseData({
+                  ...editCourseData,
+                  venue: e.target.value,
+                });
               }}
             />
           </div>
           <div className="timetable__form-buttonDiv">
-            <button
-              onClick={() => {
-                setShowForm(true);
-              }}
-            >
-              Close
-            </button>
-            <button onClick={editVenue}>Save</button>
+            <button onClick={addCourse}>Add Course</button>
+            <button onClick={cancelEdit}>Clear fields</button>
             {/* <button onClick={handleFinish}>Finish</button> */}
           </div>
         </div>
 
-        {editIndex !== -1 ? (
+        {/* {editIndex !== -1 ? (
           <button onClick={updateVenue}>Update Venue</button>
         ) : (
           <button onClick={addVenue}>Add Venue</button>
-        )}
+        )} */}
       </div>
     </div>
   );
