@@ -53,11 +53,11 @@ function EditTimetable() {
     capacity: "",
     venue: "",
   });
-  // Function for adding a new course
-  const addCourse = (e) => {
-    e.preventDefault();
+
+  const addNewCourseBefore = (index) => {
+    const newCourse = { ...editCourseData };
     const updatedCourses = [...timetable.courses];
-    updatedCourses.push(editCourseData);
+    updatedCourses.splice(index, 0, newCourse);
     setTimetable({ ...timetable, courses: updatedCourses });
     setEditCourseData({
       course: "",
@@ -70,6 +70,86 @@ function EditTimetable() {
       venue: "",
     });
   };
+  
+  const addNewCourseAfter = (index) => {
+    const newCourse = { ...editCourseData };
+    const updatedCourses = [...timetable.courses];
+    updatedCourses.splice(index + 1, 0, newCourse);
+    setTimetable({ ...timetable, courses: updatedCourses });
+    setEditCourseData({
+      course: "",
+      supervisors: "",
+      assisting_supervisors: "",
+      start_time: "",
+      end_time: "",
+      day: "",
+      capacity: "",
+      venue: "",
+    });
+  };
+  
+  // Function for adding a new course
+  // const addCourse = (e, index) => {
+  //   // e.preventDefault();
+  //   const updatedCourses = [...timetable.courses];
+  //   updatedCourses.splice(index, 0, editCourseData);
+  //   setTimetable({ ...timetable, courses: updatedCourses });
+  //   setEditIndex(-1);
+  //   setEditCourseData({
+  //     course: "",
+  //     supervisors: "",
+  //     assisting_supervisors: "",
+  //     start_time: "",
+  //     end_time: "",
+  //     day: "",
+  //     capacity: "",
+  //     venue: "",
+  //   });
+  // };
+
+  // Function for adding a new course before the specified index
+  // const addCourseBefore = (index) => {
+  //   const newCourse = {
+  //     course: "",
+  //     supervisors: "",
+  //     assisting_supervisors: "",
+  //     start_time: "",
+  //     end_time: "",
+  //     day: "",
+  //     capacity: "",
+  //     venue: "",
+  //   };
+
+  //   const updatedCourses = [...timetable.courses];
+  //   updatedCourses.splice(index - 1, 0, newCourse);
+
+  //   setTimetable((prevTimetable) => ({
+  //     ...prevTimetable,
+  //     courses: updatedCourses,
+  //   }));
+  // };
+
+  // // Function for adding a new course after the specified index
+  // const addCourseAfter = (index) => {
+  //   const newCourse = {
+  //     course: "",
+  //     supervisors: "",
+  //     assisting_supervisors: "",
+  //     start_time: "",
+  //     end_time: "",
+  //     day: "",
+  //     capacity: "",
+  //     venue: "",
+  //   };
+
+  //   const updatedCourses = [...timetable.courses];
+  //   updatedCourses.splice(index + 1, 0, newCourse);
+
+  //   setTimetable((prevTimetable) => ({
+  //     ...prevTimetable,
+  //     courses: updatedCourses,
+  //   }));
+  // };
 
   // Function for editing a course
   const editVenue = (index, id) => {
@@ -119,7 +199,7 @@ function EditTimetable() {
   };
 
   // Function for updating a course and its details
-  const updateVenue = () => {
+  const updateCourse = () => {
     if (editIndex !== -1) {
       const updatedCourses = [...timetable.courses];
       updatedCourses[editIndex] = {
@@ -129,6 +209,16 @@ function EditTimetable() {
       setTimetable({
         ...timetable,
         courses: updatedCourses,
+      });
+      setEditCourseData({
+        course: "",
+        supervisors: "",
+        assisting_supervisors: "",
+        start_time: "",
+        end_time: "",
+        day: "",
+        capacity: "",
+        venue: "",
       });
       setEditIndex(-1);
       // Call an API to update the course details in the database
@@ -293,12 +383,9 @@ function EditTimetable() {
                         border: "1px solid #ccc",
                         fontWeight: "bold",
                       }}
-                      
-                      // rowSpan={timetable.courses.reduce((count, c) => c.day === course.day ? count + 1 : count, 0)}
-
                       rowSpan={
-                        timetable.courses.filter((c) => c.day === course.day).length
-                          
+                        timetable.courses.filter((c) => c.day === course.day)
+                          .length
                       }
                     >
                       {course.day}
@@ -327,7 +414,7 @@ function EditTimetable() {
                       {course.population === editCourseData.population &&
                       editIndex === index ? (
                         <div className="aButton">
-                          <button onClick={updateVenue}>Save</button>
+                          <button onClick={updateCourse}>Save</button>
                           <button onClick={cancelEdit}>Cancel</button>
                         </div>
                       ) : (
@@ -335,6 +422,12 @@ function EditTimetable() {
                           <button onClick={() => editVenue(index)}>Edit</button>
                           <button onClick={() => removeCourse(index)}>
                             Remove
+                          </button>
+                          <button onClick={() => addNewCourseBefore(index)}>
+                            Add Before this course
+                          </button>
+                          <button onClick={() => addNewCourseAfter(index)}>
+                            Add After this course
                           </button>
                         </div>
                       )}
@@ -482,17 +575,10 @@ function EditTimetable() {
             />
           </div>
           <div className="timetable__form-buttonDiv">
-            <button onClick={addCourse}>Add Course</button>
             <button onClick={cancelEdit}>Clear fields</button>
-            {/* <button onClick={handleFinish}>Finish</button> */}
+            <button>POST</button>
           </div>
         </div>
-
-        {/* {editIndex !== -1 ? (
-          <button onClick={updateVenue}>Update Venue</button>
-        ) : (
-          <button onClick={addVenue}>Add Venue</button>
-        )} */}
       </div>
     </div>
   );

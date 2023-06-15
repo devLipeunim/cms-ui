@@ -9,11 +9,11 @@ import "./index.css";
 import "./timetable.css";
 
 //Material Ui imports
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 // Function to convert time to 12 hours format and include AM or PM. This is for the time displayed on the time-table
 export const formatTime = (time) => {
@@ -102,35 +102,35 @@ export const availableDays = [
 ];
 
 function TabPanel(props) {
-     const { children, value, index, ...other } = props;
-   
-     return (
-       <div
-         role="tabpanel"
-         hidden={value !== index}
-         id={`simple-tabpanel-${index}`}
-         aria-labelledby={`simple-tab-${index}`}
-         {...other}
-       >
-         {value === index && (
-           <Box sx={{ p: 3 }}>
-             <Typography>{children}</Typography>
-           </Box>
-         )}
-       </div>
-     );
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 }
-   
+
 TabPanel.propTypes = {
-     children: PropTypes.node,
-     index: PropTypes.number.isRequired,
-     value: PropTypes.number.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
 };
 function a11yProps(index) {
-     return {
-       id: `simple-tab-${index}`,
-       'aria-controls': `simple-tabpanel-${index}`,
-     };
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
 }
 
 const Updated = () => {
@@ -214,7 +214,7 @@ const Updated = () => {
       day !== "" &&
       population !== ""
     ) {
-      if (manualVenue !== "" ) {
+      if (manualVenue !== "") {
         setNewCourseData([
           ...newCourseData,
           {
@@ -226,7 +226,7 @@ const Updated = () => {
             day: day,
             capacity: population,
             venue: manualVenue,
-            date:value ==0? date: null
+            date: value == 0 ? date : null,
           },
         ]);
       } else {
@@ -240,7 +240,7 @@ const Updated = () => {
             end_time: finishTime,
             day: day,
             capacity: population,
-            date:value ==0? date: null
+            date: value == 0 ? date : null,
           },
         ]);
       }
@@ -356,7 +356,7 @@ const Updated = () => {
         day,
         capacity,
         venue,
-        date
+        date,
       } = row;
       const availableVenues = [];
 
@@ -399,7 +399,7 @@ const Updated = () => {
           day,
           capacity,
           venue: venue ? venue : selectedVenue.name,
-          date
+          date,
         };
       }
 
@@ -412,7 +412,7 @@ const Updated = () => {
         day,
         capacity,
         venue: "Not available",
-        date
+        date,
       };
     });
     if (updatedAllocatedTimetable != []) {
@@ -421,7 +421,7 @@ const Updated = () => {
         courses: updatedAllocatedTimetable,
         department: claims.department,
         createdBy: claims.userName,
-        type: value==0? 'Examination/Test':'Semester'
+        type: value == 0 ? "Examination/Test" : "Semester",
       };
       console.log(payload);
       fetch(`${BaseUrl}/api/v1/timetable/create`, {
@@ -494,166 +494,178 @@ const Updated = () => {
         )}
         {showForm && (
           <form action="" className="timetable__form">
-               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                         <Tab label="Examination/Test Timetable" {...a11yProps(0)}  />
-                         <Tab label="Semester Timetable" {...a11yProps(1)} />
-                    </Tabs>
-               </Box>
-              
-               <div className="timetable__form-wrapper">
-                    
-                    <label htmlFor="title">Title</label>
-                    <input
-                         type="text"
-                         value={title}
-                         placeholder=""
-                         onChange={(e) => {
-                         setTitle(e.target.value);
-                         }}
-                    />
-                    </div>
-                    <p className="timetable__course-text">
-                    Add all courses for this timetable
-                    </p>
-                    <div className="timetable__form-courses">
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Course</label>
-                              <select
-                              value={course}
-                              onChange={(e) => {
-                                   setCourse(e.target.value);
-                              }}
-                              >
-                              <option value="" hidden>
-                                   Select a Course
-                              </option>
-                              {availableCourses.map((course) => (
-                                   <option value={course} key={course}>
-                                   {course}
-                                   </option>
-                              ))}
-                              </select>
-                         </div>
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">For Department ONLY!!</label>
-                              <input
-                              type="text"
-                              value={course}
-                              onChange={(e) => {
-                                   setCourse(e.target.value);
-                              }}
-                              />
-                         </div>
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Lecturer</label>
-                              <select
-                              value={lecturer}
-                              onChange={(e) => {
-                                   setLecturer(e.target.value);
-                              }}
-                              >
-                              <option value="" hidden>
-                                   Select the Lecturer
-                              </option>
-                              {availableLecturers.map((course) => (
-                                   <option value={course} key={course}>
-                                   {course}
-                                   </option>
-                              ))}
-                              </select>
-                         </div>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Examination/Test Timetable" {...a11yProps(0)} />
+                <Tab label="Semester Timetable" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
 
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Assisting Staff</label>
-                              <input
-                              type="text"
-                              value={astLecturer}
-                              onChange={(e) => {
-                                   setAstLecturer(e.target.value);
-                              }}
-                              />
-                         </div>
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Start Time</label>
-                              <input
-                              type="time"
-                              id="stimepicker"
-                              value={startTime}
-                              onChange={(e) => {
-                                   setStartTime(e.target.value);
-                              }}
-                              />
-                         </div>
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Finish Time</label>
-                              <input
-                              type="time"
-                              id="ftimepicker"
-                              value={finishTime}
-                              onChange={(e) => {
-                                   setFinishTime(e.target.value);
-                              }}
-                              />
-                         </div>
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Day</label>
-                              <select
-                              name=""
-                              id=""
-                              value={day}
-                              onChange={(e) => {
-                                   setDay(e.target.value);
-                              }}
-                              >
-                              <option value="" hidden>
-                                   Select a Day
-                              </option>
-                              {availableDays.map((course) => (
-                                   <option value={course} key={course}>
-                                   {course}
-                                   </option>
-                              ))}
-                              </select>
-                         </div>
-                         {value ==0 &&
-                              <div className="timetable__form-wrapper">
-                                   <label htmlFor="">Date</label>
-                                   <input type="date"id="date"value={date}onChange={(e) => {setDate(e.target.value);}}/>
-                              </div>
-                         }
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Population</label>
-                              <input
-                              type="number"
-                              value={population}
-                              onChange={(e) => {
-                                   setPopulation(e.target.value);
-                              }}
-                              />
-                         </div>
-                         <div className="timetable__form-wrapper">
-                              <label htmlFor="">Venue(optional)</label>
-                              <input
-                              type="text"
-                              value={manualVenue}
-                              onChange={(e) => {
-                                   setManualVenue(e.target.value);
-                              }}
-                              />
-                         </div>
-                         <div className="timetable__form-buttonDiv">
-                              <button
-                              onClick={() => {
-                                   setShowForm(true);
-                              }}
-                              >
-                              Close
-                              </button>
-                              <button onClick={addCourse}>Add course</button>
-                              <button onClick={handleFinish}>Finish</button>
-                         </div>
-                    </div>
+            <div className="timetable__form-wrapper">
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                value={title}
+                placeholder=""
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </div>
+            <p className="timetable__course-text">
+              Add all courses for this timetable
+            </p>
+            <div className="timetable__form-courses">
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Course</label>
+                <select
+                  value={course}
+                  onChange={(e) => {
+                    setCourse(e.target.value);
+                  }}
+                >
+                  <option value="" hidden>
+                    Select a Course
+                  </option>
+                  {availableCourses.map((course) => (
+                    <option value={course} key={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {value == 0 && (
+                <div className="timetable__form-wrapper">
+                  <label htmlFor="">For Department ONLY!!</label>
+                  <input
+                    type="text"
+                    value={course}
+                    onChange={(e) => {
+                      setCourse(e.target.value);
+                    }}
+                  />
+                </div>
+              )}
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Lecturer</label>
+                <select
+                  value={lecturer}
+                  onChange={(e) => {
+                    setLecturer(e.target.value);
+                  }}
+                >
+                  <option value="" hidden>
+                    Select the Lecturer
+                  </option>
+                  {availableLecturers.map((course) => (
+                    <option value={course} key={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Assisting Staff</label>
+                <input
+                  type="text"
+                  value={astLecturer}
+                  onChange={(e) => {
+                    setAstLecturer(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Start Time</label>
+                <input
+                  type="time"
+                  id="stimepicker"
+                  value={startTime}
+                  onChange={(e) => {
+                    setStartTime(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Finish Time</label>
+                <input
+                  type="time"
+                  id="ftimepicker"
+                  value={finishTime}
+                  onChange={(e) => {
+                    setFinishTime(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Day</label>
+                <select
+                  name=""
+                  id=""
+                  value={day}
+                  onChange={(e) => {
+                    setDay(e.target.value);
+                  }}
+                >
+                  <option value="" hidden>
+                    Select a Day
+                  </option>
+                  {availableDays.map((course) => (
+                    <option value={course} key={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {value == 0 && (
+                <div className="timetable__form-wrapper">
+                  <label htmlFor="">Date</label>
+                  <input
+                    type="date"
+                    id="date"
+                    value={date}
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                    }}
+                  />
+                </div>
+              )}
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Population</label>
+                <input
+                  type="number"
+                  value={population}
+                  onChange={(e) => {
+                    setPopulation(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Venue(optional)</label>
+                <input
+                  type="text"
+                  value={manualVenue}
+                  onChange={(e) => {
+                    setManualVenue(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="timetable__form-buttonDiv">
+                <button
+                  onClick={() => {
+                    setShowForm(true);
+                  }}
+                >
+                  Close
+                </button>
+                <button onClick={addCourse}>Add course</button>
+                <button onClick={handleFinish}>Finish</button>
+              </div>
+            </div>
           </form>
         )}
         {courseData.length > 0 && !showForm && (
