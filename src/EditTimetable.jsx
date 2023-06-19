@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useParams } from "react-router";
 import {
+  days,
+  timeFrames,
   formatTime,
   availableCourses,
   availableDays,
@@ -54,6 +56,12 @@ function EditTimetable() {
     venue: "",
   });
 
+  const handleAddCourse = () => {
+    const newCourse = { ...editCourseData };
+    setTimetable({ ...timetable, courses: newCourse } );
+    setEditCourseData({ course: "", venue: "", day: "", start_time: "", end_time: "" });
+  };
+
   const addNewCourseBefore = (index) => {
     const newCourse = { ...editCourseData };
     const updatedCourses = [...timetable.courses];
@@ -70,7 +78,7 @@ function EditTimetable() {
       venue: "",
     });
   };
-  
+
   const addNewCourseAfter = (index) => {
     const newCourse = { ...editCourseData };
     const updatedCourses = [...timetable.courses];
@@ -87,7 +95,7 @@ function EditTimetable() {
       venue: "",
     });
   };
-  
+
   // Function for adding a new course
   // const addCourse = (e, index) => {
   //   // e.preventDefault();
@@ -197,6 +205,12 @@ function EditTimetable() {
     updatedCourses.splice(index, 1);
     setTimetable({ ...timetable, courses: updatedCourses });
   };
+  // the handleEditCourse function to edit the course from the timetable:
+  const handleEditCourse = (index, updatedCourse) => {
+    const updatedTimetable = [...timetable.courses];
+    updatedTimetable[index] = updatedCourse;
+    setTimetable({ ...timetable, courses: updatedTimetable });
+  };
 
   // Function for updating a course and its details
   const updateCourse = () => {
@@ -272,314 +286,580 @@ function EditTimetable() {
   return (
     <div style={{ marginTop: "130px" }}>
       <Navbar />
-      {timetable !== {} && (
-        <div style={{ padding: "50px 100px" }}>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-            style={{
-              padding: "10px",
-              border: "1px solid gray",
-              borderRadius: "8px",
-              fontSize: "20px",
-              fontWeight: 900,
-            }}
-          />
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "20px",
-            }}
-          >
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Day
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Course
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Lecturer
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Assisting Staff
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Start Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  End Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Venue
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {timetable?.courses?.map((course, index) => (
-                <tr key={index}>
-                  {index === 0 ||
-                  course.day !== timetable.courses[index - 1].day ? (
-                    <td
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #ccc",
-                        fontWeight: "bold",
-                      }}
-                      rowSpan={
-                        timetable.courses.filter((c) => c.day === course.day)
-                          .length
-                      }
-                    >
-                      {course.day}
-                    </td>
-                  ) : null}
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.course}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.supervisors}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.assisting_supervisors}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(course.start_time)}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(course.end_time)}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.venue}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    <div className="aButton">
-                      {course.population === editCourseData.population &&
-                      editIndex === index ? (
-                        <div className="aButton">
-                          <button onClick={updateCourse}>Save</button>
-                          <button onClick={cancelEdit}>Cancel</button>
-                        </div>
-                      ) : (
-                        <div className="aButton">
-                          <button onClick={() => editVenue(index)}>Edit</button>
-                          <button onClick={() => removeCourse(index)}>
-                            Remove
-                          </button>
-                          <button onClick={() => addNewCourseBefore(index)}>
-                            Add Before this course
-                          </button>
-                          <button onClick={() => addNewCourseAfter(index)}>
-                            Add After this course
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </td>
+      {timetable !== {} && timetable.type == "Examination/Test" && (
+        <div>
+          <div style={{ padding: "50px 100px" }}>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              style={{
+                padding: "10px",
+                border: "1px solid gray",
+                borderRadius: "8px",
+                fontSize: "20px",
+                fontWeight: 900,
+              }}
+            />
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                marginTop: "20px",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Day
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Course
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Lecturer
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Assisting Staff
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Start Time
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    End Time
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Venue
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {timetable?.courses?.map((course, index) => (
+                  <tr key={index}>
+                    {index === 0 ||
+                    course.day !== timetable.courses[index - 1].day ? (
+                      <td
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          fontWeight: "bold",
+                        }}
+                        rowSpan={
+                          timetable.courses.filter((c) => c.day === course.day)
+                            .length
+                        }
+                      >
+                        {course.day}
+                      </td>
+                    ) : null}
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      {course.course}
+                    </td>
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      {course.supervisors}
+                    </td>
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      {course.assisting_supervisors}
+                    </td>
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      {formatTime(course.start_time)}
+                    </td>
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      {formatTime(course.end_time)}
+                    </td>
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      {course.venue}
+                    </td>
+                    <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                      <div className="aButton">
+                        {course.population === editCourseData.population &&
+                        editIndex === index ? (
+                          <div className="aButton">
+                            <button onClick={updateCourse}>Save</button>
+                            <button onClick={cancelEdit}>Cancel</button>
+                          </div>
+                        ) : (
+                          <div className="aButton">
+                            <button onClick={() => editVenue(index)}>
+                              Edit
+                            </button>
+                            <button onClick={() => removeCourse(index)}>
+                              Remove
+                            </button>
+                            <button onClick={() => addNewCourseBefore(index)}>
+                              Add Before this course
+                            </button>
+                            <button onClick={() => addNewCourseAfter(index)}>
+                              Add After this course
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="addVenues" style={{ marginBottom: "20px" }}>
+            <h3>Edit Timetable</h3>
+            <div className="courseForm">
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Course</label>
+                <select
+                  value={editCourseData.course}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      course: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="" hidden>
+                    Select a Course
+                  </option>
+                  {availableCourses.map((course) => (
+                    <option value={course} key={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Lecturer</label>
+                <select
+                  value={editCourseData.supervisors}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      supervisors: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="" hidden>
+                    Select the Lecturer
+                  </option>
+                  {availableLecturers.map((course) => (
+                    <option value={course} key={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Assisting Staff</label>
+                <input
+                  type="text"
+                  value={editCourseData.assisting_supervisors}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      assisting_supervisors: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Start Time</label>
+                <input
+                  type="time"
+                  id="stimepicker"
+                  value={editCourseData.start_time}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      start_time: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Finish Time</label>
+                <input
+                  type="time"
+                  id="ftimepicker"
+                  value={editCourseData.end_time}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      end_time: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Day</label>
+                <select
+                  name=""
+                  id=""
+                  value={editCourseData.day}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      day: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="" hidden>
+                    Select a Day
+                  </option>
+                  {availableDays.map((day) => (
+                    <option value={day} key={day}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* <div className="timetable__form-wrapper">
+              <label htmlFor="">Population</label>
+              <input
+                type="number"
+                value={editCourseData.population}
+                onChange={(e) => {
+                  setEditCourseData({
+                    ...editCourseData,
+                    population: e.target.value,
+                  });
+                }}
+              />
+            </div> */}
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Venue(optional)</label>
+                <input
+                  type="text"
+                  value={editCourseData.venue}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      venue: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-buttonDiv">
+                <button onClick={cancelEdit}>Clear fields</button>
+                <button>POST</button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
-      <div className="addVenues" style={{ marginBottom: "20px" }}>
-        <h3>Edit Timetable</h3>
-        <div className="courseForm">
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Course</label>
-            <select
-              value={editCourseData.course}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  course: e.target.value,
-                });
-              }}
-            >
-              <option value="" hidden>
-                Select a Course
-              </option>
-              {availableCourses.map((course) => (
-                <option value={course} key={course}>
-                  {course}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Lecturer</label>
-            <select
-              value={editCourseData.supervisors}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  supervisors: e.target.value,
-                });
-              }}
-            >
-              <option value="" hidden>
-                Select the Lecturer
-              </option>
-              {availableLecturers.map((course) => (
-                <option value={course} key={course}>
-                  {course}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Assisting Staff</label>
+      {timetable !== {} && timetable.type == "Semester" && (
+        <div>
+          <div style={{ padding: "50px 100px" }}>
             <input
               type="text"
-              value={editCourseData.assisting_supervisors}
+              value={title}
               onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  assisting_supervisors: e.target.value,
-                });
+                setTitle(e.target.value);
+              }}
+              style={{
+                padding: "10px",
+                border: "1px solid gray",
+                borderRadius: "8px",
+                fontSize: "20px",
+                fontWeight: 900,
               }}
             />
-          </div>
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Start Time</label>
-            <input
-              type="time"
-              id="stimepicker"
-              value={editCourseData.start_time}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  start_time: e.target.value,
-                });
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                marginTop: "20px",
               }}
-            />
-          </div>
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Finish Time</label>
-            <input
-              type="time"
-              id="ftimepicker"
-              value={editCourseData.end_time}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  end_time: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Day</label>
-            <select
-              name=""
-              id=""
-              value={editCourseData.day}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  day: e.target.value,
-                });
-              }}
+              className="timetable"
             >
-              <option value="" hidden>
-                Select a Day
-              </option>
-              {availableDays.map((day) => (
-                <option value={day} key={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
+              <thead>
+                <tr>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Day
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    8am-9am
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    9am-10am
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    10am-11am
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    11am-12pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    12pm-1pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    1pm-2pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    2pm-3pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    3pm-4pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    4pm-5pm
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {days.map((day) => (
+                  <tr key={day}>
+                    <td>{day}</td>
+                    {timeFrames.map((timeFrame) => (
+                      <td key={timeFrame}>
+                        {timetable.courses
+                          .filter(
+                            (row) =>
+                              row.day === day &&
+                              row.start_time <= timeFrame &&
+                              row.end_time > timeFrame
+                          )
+                          .map((row, index) => (
+                            <div key={row.course}>
+                              {`${row.course}, (${row.venue})`}
+                              <button
+                                onClick={() => handleEditCourse(index, row)}
+                              >
+                                Edit
+                              </button>
+                              <button onClick={() => removeCourse(index)}>
+                                Remove
+                              </button>
+                            </div>
+                          ))}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          {/* <div className="timetable__form-wrapper">
-            <label htmlFor="">Population</label>
-            <input
-              type="number"
-              value={editCourseData.population}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  population: e.target.value,
-                });
-              }}
-            />
-          </div> */}
-          <div className="timetable__form-wrapper">
-            <label htmlFor="">Venue(optional)</label>
-            <input
-              type="text"
-              value={editCourseData.venue}
-              onChange={(e) => {
-                setEditCourseData({
-                  ...editCourseData,
-                  venue: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className="timetable__form-buttonDiv">
-            <button onClick={cancelEdit}>Clear fields</button>
-            <button>POST</button>
+          <div className="addVenues" style={{ marginBottom: "20px" }}>
+            <h3>Edit Timetable</h3>
+            <div className="courseForm">
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Course</label>
+                <select
+                  value={editCourseData.course}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      course: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="" hidden>
+                    Select a Course
+                  </option>
+                  {availableCourses.map((course) => (
+                    <option value={course} key={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Start Time</label>
+                <input
+                  type="time"
+                  id="stimepicker"
+                  value={editCourseData.start_time}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      start_time: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Finish Time</label>
+                <input
+                  type="time"
+                  id="ftimepicker"
+                  value={editCourseData.end_time}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      end_time: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Day</label>
+                <select
+                  name=""
+                  id=""
+                  value={editCourseData.day}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      day: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="" hidden>
+                    Select a Day
+                  </option>
+                  {availableDays.map((day) => (
+                    <option value={day} key={day}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* <div className="timetable__form-wrapper">
+              <label htmlFor="">Population</label>
+              <input
+                type="number"
+                value={editCourseData.population}
+                onChange={(e) => {
+                  setEditCourseData({
+                    ...editCourseData,
+                    population: e.target.value,
+                  });
+                }}
+              />
+            </div> */}
+              <div className="timetable__form-wrapper">
+                <label htmlFor="">Venue(optional)</label>
+                <input
+                  type="text"
+                  value={editCourseData.venue}
+                  onChange={(e) => {
+                    setEditCourseData({
+                      ...editCourseData,
+                      venue: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="timetable__form-buttonDiv">
+                <button onClick={handleAddCourse}>Add</button>
+                <button onClick={cancelEdit}>Clear fields</button>
+                <button>POST</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

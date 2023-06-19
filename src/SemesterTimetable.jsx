@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import "./timetableDetails.css";
 import { useParams } from "react-router";
-import { days, timeFrames, formatTime, export2Word } from "./updated ";
+import { formatTime, export2Word } from "./updated ";
 const TimetableDetails = () => {
   const BaseUrl = "https://cms-api-o973.onrender.com";
   let params = useParams();
@@ -21,135 +21,7 @@ const TimetableDetails = () => {
   return (
     <div className="container_2">
       <Navbar />
-      {timetable !== {} && timetable.type == "Examination/Test" && (
-        <div id={"content"} className="timtable__details-container">
-          <h3>{timetable.title}</h3>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "20px",
-            }}
-            className="timetable"
-          >
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Day
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Course
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Lecturer
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Assisting Staff
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Start Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  End Time
-                </th>
-                <th
-                  style={{
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                >
-                  Venue
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {timetable?.courses?.map((course, index) => (
-                <tr key={index}>
-                  {index === 0 ||
-                  course.day !== timetable.courses[index - 1].day ? (
-                    <td
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #ccc",
-                        fontWeight: "bold",
-                      }}
-                      rowSpan={
-                        timetable.courses.filter((c) => c.day === course.day)
-                          .length
-                      }
-                    >
-                      {course.day}
-                    </td>
-                  ) : null}
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.course}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.supervisors}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.assisting_supervisors}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(course.start_time)}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {formatTime(course.end_time)}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
-                    {course.venue}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button
-            onClick={() => {
-              export2Word(`content`, "Timetable");
-            }}
-          >
-            Export to DOCX
-          </button>
-        </div>
-      )}
-      {timetable !== {} && timetable.type == "Semester" && (
+      {timetable !== {} && (
         <div id={"content"} className="timtable__details-container">
           <h3>{timetable.title}</h3>
           <table
@@ -255,25 +127,42 @@ const TimetableDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {days.map((day) => (
-                <tr key={day}>
-                  <td>{day}</td>
-                  {timeFrames.map((timeFrame) => (
-                    <td key={timeFrame}>
-                      {timetable.courses
-                        .filter(
-                          (row) =>
-                            row.day === day &&
-                            row.start_time <= timeFrame &&
-                            row.end_time > timeFrame
-                        )
-                        .map((row) => (
-                          <div
-                            key={row.course}
-                          >{`${row.course}, (${row.venue})`}</div>
-                        ))}
+              {timetable?.courses?.map((course, index) => (
+                <tr key={index}>
+                  {index === 0 ||
+                  course.day !== timetable.courses[index - 1].day ? (
+                    <td
+                      style={{
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                        fontWeight: "bold",
+                      }}
+                      rowSpan={
+                        timetable.courses.filter((c) => c.day === course.day)
+                          .length
+                      }
+                    >
+                      {course.day}
                     </td>
-                  ))}
+                  ) : null}
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {course.course}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {course.supervisors}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {course.assisting_supervisors}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {formatTime(course.start_time)}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {formatTime(course.end_time)}
+                  </td>
+                  <td style={{ padding: "10px", border: "1px solid #ccc" }}>
+                    {course.venue}
+                  </td>
                 </tr>
               ))}
             </tbody>

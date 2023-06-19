@@ -37,6 +37,15 @@ const CourseTable = ({ courses, removeCourse }) => {
               backgroundColor: "#f2f2f2",
             }}
           >
+            Score
+          </th>
+          <th
+            style={{
+              padding: "5px",
+              border: "1px solid #ccc",
+              backgroundColor: "#f2f2f2",
+            }}
+          >
             Grade Point
           </th>
           <th
@@ -60,10 +69,13 @@ const CourseTable = ({ courses, removeCourse }) => {
               {course.units}
             </td>
             <td style={{ padding: "4px", border: "1px solid #ccc" }}>
+              {course.score}
+            </td>
+            <td style={{ padding: "4px", border: "1px solid #ccc" }}>
               {course.gradePoint}
             </td>
             <td style={{ padding: "4px", border: "1px solid #ccc" }}>
-              <button onClick={() => removeCourse(index)}>Remove</button>
+              <button className="tableButton" onClick={() => removeCourse(index)}>Remove</button>
             </td>
           </tr>
         ))}

@@ -55,6 +55,12 @@ function Navbar() {
                 {claims.matricNumber && (
                   <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                 )}
+                {!open && (
+                  <button>
+                    <a href="https://www.appcreator24.com/app2694174-isnvot"></a>
+                    Download App
+                  </button>
+                )}
                 {!open && <button onClick={handleSignout}>Logout</button>}
               </ul>
             </nav>
@@ -83,6 +89,12 @@ function Navbar() {
                   )}
                   {claims.matricNumber && (
                     <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
+                  )}
+                  {!open && (
+                    <button>
+                      <a href="https://www.appcreator24.com/app2694174-isnvot"></a>
+                      Download App
+                    </button>
                   )}
                   {open && <button onClick={handleSignout}>Logout</button>}
                 </ul>

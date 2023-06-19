@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Swal from "sweetalert2";
 import emptyFolder from "./assets/empty-folder.svg";
 import "./index.css";
+import toast, { Toaster } from "react-hot-toast";
 import "./timetable.css";
 
 //Material Ui imports
@@ -75,81 +76,10 @@ export function export2Word(element, filename = "") {
 export const availableCourses = [
   "CSC 102",
   "CSC 103",
-  "CSC 213",
-  "CSC 222",
-  "CSC 293",
-  "CSC 231",
-  "CSC 234",
-  "CSC 235",
-  "CSC 236",
-  "CSC 242",
-  "CSC 272",
-  "CSC 299",
-  "CSC 301",
-  "CSC 302",
-  "CSC 313",
-  "CSC 321",
-  "CSC 322",
-  "CSC 331",
-  "CSC 334",
-  "CSC 335",
-  "CSC 341",
-  "CSC 351",
-  "CSC 399",
-  "CSC 381",
-  // "CSC 412",
-  // "CSC 421",
-  // "CSC 431",
-  // "CSC 472",
-  // "CSC 475",
-  // "CSC 476",
-  // "CSC 499",
-  // "CSC 531",
-  // "CSC 532",
-  // "CSC 533",
-  // "CSC 551",
-  // "CSC 552",
-  // "CSC 553",
-  // "CSC 554",
-  // "CSC 571",
-  // "CSC 572",
-  // "CSC 573",
-  // "CSC 574",
-  // "CSC 575",
-  // "CSC 581",
-  // "CSC 582",
-  // "CSC 583",
-  // "CSC 584",
-  // "CSC 599",
-  "CSC 715",
-  "CSC 712",
-  "CSC 719",
-  "CSC 722",
-  "CSC 723",
-  "CSC 725",
-  "CSC 745",
-  "CSC 776",
-  "CSC 777",
-  "MBC 715",
-  "MBC 702",
-  "MBC 705",
-  "MBC 706",
-  "MBC 707",
-  "MBC 738",
-  "JUMAT",
-];
-
-export const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-export const timeFrames = [
-  "08:00",
-  "09:00",
-  "10:00",
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
+  "MAT 102",
+  "PHY 102",
+  "CHE 102",
+  "PSY 102",
 ];
 
 // Selecting lecturers
@@ -169,42 +99,41 @@ export const availableDays = [
   "Wednesday",
   "Thursday",
   "Friday",
-  "Saturday",
 ];
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+// function TabPanel(props) {
+//   const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+//   return (
+//     <div
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && (
+//         <Box sx={{ p: 3 }}>
+//           <Typography>{children}</Typography>
+//         </Box>
+//       )}
+//     </div>
+//   );
+// }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+// TabPanel.propTypes = {
+//   children: PropTypes.node,
+//   index: PropTypes.number.isRequired,
+//   value: PropTypes.number.isRequired,
+// };
+// function a11yProps(index) {
+//   return {
+//     id: `simple-tab-${index}`,
+//     "aria-controls": `simple-tabpanel-${index}`,
+//   };
+// }
 
-const Updated = () => {
+const Semester = () => {
   let claims = JSON.parse(localStorage.getItem("claims"));
   const BaseUrl = "https://cms-api-o973.onrender.com";
   const navigate = useNavigate();
@@ -273,79 +202,8 @@ const Updated = () => {
     setManualVenue("");
     setDate("");
   };
-  // Function for adding a new course for examination/test
-  const addExamCourse = (e) => {
-    e.preventDefault();
-    if (
-      course !== "" &&
-      lecturer !== "" &&
-      astLecturer !== "" &&
-      startTime !== "" &&
-      finishTime !== "" &&
-      day !== "" &&
-      population !== ""
-    ) {
-      if (manualVenue !== "") {
-        setNewCourseData([
-          ...newCourseData,
-          {
-            course: course,
-            supervisors: lecturer,
-            assisting_supervisors: astLecturer,
-            start_time: startTime,
-            end_time: finishTime,
-            day: day,
-            capacity: population,
-            venue: manualVenue,
-            date: value == 0 ? date : null,
-          },
-        ]);
-      } else {
-        setNewCourseData([
-          ...newCourseData,
-          {
-            course: course,
-            supervisors: lecturer,
-            assisting_supervisors: astLecturer,
-            start_time: startTime,
-            end_time: finishTime,
-            day: day,
-            capacity: population,
-            date: value == 0 ? date : null,
-          },
-        ]);
-      }
-
-      if (newCourseData.length <= 1) {
-        Swal.fire({
-          title: "Success!",
-          text:
-            "Course has been added. Now you can keep adding as much as you want.",
-          icon: "success",
-          confirmButtonText: "Thanks",
-        });
-        clearForm();
-      } else {
-        Swal.fire({
-          title: "Success!",
-          text: "Course has been added!",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-        clearForm();
-      }
-    } else {
-      Swal.fire({
-        title: "Error!",
-        text: "Kindly fill all fields 😒",
-        icon: "error",
-        confirmButtonText: "Close",
-      });
-    }
-  };
-
-  // Function for adding a new course for Semester
-  const addSemesterCourse = (e) => {
+  // Function for adding a new course
+  const addCourse = (e) => {
     e.preventDefault();
     if (
       course !== "" &&
@@ -389,21 +247,23 @@ const Updated = () => {
         });
         clearForm();
       } else {
-        Swal.fire({
-          title: "Success!",
-          text: "Course has been added!",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
+        toast.success("Course has been added!");
+        // Swal.fire({
+        //   title: "Success!",
+        //   text: "Course has been added!",
+        //   icon: "success",
+        //   confirmButtonText: "Ok",
+        // });
         clearForm();
       }
     } else {
-      Swal.fire({
-        title: "Error!",
-        text: "Kindly fill all fields 😒",
-        icon: "error",
-        confirmButtonText: "Close",
-      });
+      toast.error("Kindly fill all fields.");
+      // Swal.fire({
+      //   title: "Error!",
+      //   text: "Kindly fill all fields ",
+      //   icon: "error",
+      //   confirmButtonText: "Close",
+      // });
     }
   };
 
@@ -429,7 +289,7 @@ const Updated = () => {
     } else {
       Swal.fire({
         title: "Error!",
-        text: "Kindly add at least a course and a title 😒",
+        text: "Kindly add at least a course and a title",
         icon: "error",
         confirmButtonText: "Close",
       });
@@ -628,17 +488,6 @@ const Updated = () => {
         )}
         {showForm && (
           <form action="" className="timetable__form">
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-              >
-                <Tab label="Examination/Test Timetable" {...a11yProps(0)} />
-                <Tab label="Semester Timetable" {...a11yProps(1)} />
-              </Tabs>
-            </Box>
-
             <div className="timetable__form-wrapper">
               <label htmlFor="title">Title</label>
               <input
@@ -672,51 +521,6 @@ const Updated = () => {
                   ))}
                 </select>
               </div>
-              {value == 0 && (
-                <div className="timetable__form-wrapper">
-                  <label htmlFor="">For Department ONLY!!</label>
-                  <input
-                    type="text"
-                    value={course}
-                    onChange={(e) => {
-                      setCourse(e.target.value);
-                    }}
-                  />
-                </div>
-              )}
-              {value == 0 && (
-                <div className="timetable__form-wrapper">
-                  <label htmlFor="">Lecturer</label>
-                  <select
-                    value={lecturer}
-                    onChange={(e) => {
-                      setLecturer(e.target.value);
-                    }}
-                  >
-                    <option value="" hidden>
-                      Select the Lecturer
-                    </option>
-                    {availableLecturers.map((course) => (
-                      <option value={course} key={course}>
-                        {course}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-              {value == 0 && (
-                <div className="timetable__form-wrapper">
-                  <label htmlFor="">Assisting Staff</label>
-                  <input
-                    type="text"
-                    value={astLecturer}
-                    onChange={(e) => {
-                      setAstLecturer(e.target.value);
-                    }}
-                  />
-                </div>
-              )}
-
               <div className="timetable__form-wrapper">
                 <label htmlFor="">Start Time</label>
                 <input
@@ -759,19 +563,6 @@ const Updated = () => {
                   ))}
                 </select>
               </div>
-              {value == 0 && (
-                <div className="timetable__form-wrapper">
-                  <label htmlFor="">Date</label>
-                  <input
-                    type="date"
-                    id="date"
-                    value={date}
-                    onChange={(e) => {
-                      setDate(e.target.value);
-                    }}
-                  />
-                </div>
-              )}
               <div className="timetable__form-wrapper">
                 <label htmlFor="">Population</label>
                 <input
@@ -800,11 +591,8 @@ const Updated = () => {
                 >
                   Close
                 </button>
-                <button
-                  onClick={value == 0 ? addExamCourse : addSemesterCourse}
-                >
-                  Add course
-                </button>
+                <button onClick={addCourse}>Add course</button>
+                <Toaster position="top-center" reverseOrder={false} />
                 <button onClick={handleFinish}>Finish</button>
               </div>
             </div>
@@ -860,4 +648,4 @@ const Updated = () => {
   );
 };
 
-export default Updated;
+export default Semester;

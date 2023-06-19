@@ -76,22 +76,26 @@ o .timetable {
   background-color: #f2f2f2;
 }
 
-.timetable tr:nth-child(even) {
+/* .timetable tr:nth-child(even) {
   background-color: #f9f9f9;
-}
+} */
 
 .timetable tr:hover {
   background-color: #eaeaea;
 }
 
 button {
-  margin-top: 15px;
+  margin-top: 12px;
   padding: 10px 20px;
   background-color: indigo;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.tableButton{
+  margin-top: 2px;
 }
 
 button:hover {

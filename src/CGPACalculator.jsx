@@ -4,6 +4,7 @@ import CourseTable from "./CourseTable";
 import Navbar from "./Navbar";
 import Modal from "./Modal";
 import Swal from "sweetalert2";
+import ReadMe from "./ReadMe"
 import computerScience from "./Courses/ComputerScience";
 import economics from "./Courses//Economics";
 
@@ -55,6 +56,7 @@ const CGPACalculator = () => {
       const newCourseObj = {
         name: newCourse,
         units: parseInt(newUnits),
+        score: 0,
         gradePoint: 0,
       };
       setCourses((prevCourses) => [...prevCourses, newCourseObj]);
@@ -121,6 +123,7 @@ const CGPACalculator = () => {
       <Navbar />
       <div className="container_2">
         <h1>CGPA Calculator</h1>
+        <ReadMe/>
         <div className="courseForm">
           <div>
             <label htmlFor="department">Select Department:</label>
@@ -176,7 +179,7 @@ const CGPACalculator = () => {
             </div>
           </div>
 
-          <button type="submit">Add Course</button>
+          <button type="submit">Add New Course</button>
         </form>
         <Modal courses={courses} calculateCGPA={calculateCGPA} />
       </div>

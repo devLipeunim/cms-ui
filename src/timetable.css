@@ -3,14 +3,17 @@
      padding: 20px 100px;
 }
 .timetable__grid{
-     display: grid;
-     grid-template-columns: repeat(3, 1fr);
+     display: flex;
+     flex-wrap: wrap;
+     /* grid-template-columns: repeat(3, 1fr); */
      gap: 10px;
-     grid-auto-rows: minmax(100px, auto);
+     align-items: center;
+     justify-content: center;
+     /* grid-auto-rows: minmax(100px, auto); */
 }
 .timetable__notimetable{
      display: flex;
-     flex-direction: column;
+     flex-wrap: wrap;
      justify-content: center;
      align-items: center;
 }
@@ -84,23 +87,25 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     gap: 2rem;
+     gap: 1rem;
 }
 .timtable__title{
      font-size: 35px;
      text-align: center;
 }
 .timetable__grid{
-     display: grid;
+     display: flex;
+     flex-wrap: wrap;
      /* grid-template-columns: repeat(auto-fit, minmax(370px, auto)); */
-     grid-template-columns: repeat(2, 1fr);
+     /* grid-template-columns: repeat(2, 1fr); */
      gap: 2rem;
      align-items: center;
+     justify-content: center;
      margin-top: 4.5rem;
 }
 .timetable__grid-card{
      display: flex;
-     flex-direction: column;
+     flex-wrap: wrap;
      justify-content: center;
      align-items: center;
      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -127,7 +132,10 @@
 
 @media (max-width: 990px){
      .timetable__grid{
-          grid-template-columns: repeat(1, 1fr)
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
      }
      .timetable__container{
           padding: 20px;
