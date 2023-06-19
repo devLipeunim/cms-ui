@@ -56,8 +56,7 @@ function Navbar() {
                   <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                 )}
                 {!open && (
-                  <button>
-                    <a href="https://www.appcreator24.com/app2694174-isnvot"></a>
+                  <button formAction="https://www.appcreator24.com/app2694174-isnvot">
                     Download App
                   </button>
                 )}
@@ -91,8 +90,7 @@ function Navbar() {
                     <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                   )}
                   {!open && (
-                    <button>
-                      <a href="https://www.appcreator24.com/app2694174-isnvot"></a>
+                    <button formAction="https://www.appcreator24.com/app2694174-isnvot">
                       Download App
                     </button>
                   )}
