@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import "./students.css";
 import Swal from "sweetalert2";
-import { formatTime, export2Word } from "./updated ";
+import { days, timeFrames, formatTime, export2Word } from "./updated ";
 const Students = () => {
   let claims = JSON.parse(localStorage.getItem("claims"));
   const BaseUrl = "https://cms-api-o973.onrender.com";

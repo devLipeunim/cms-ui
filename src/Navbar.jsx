@@ -56,15 +56,17 @@ function Navbar() {
                   <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                 )}
                 {!open && (
-                  <a
-                    href="https://www.appcreator24.com/app2694174-isnvot"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <button>Download App</button>
-                  </a>
+                  <div className="aButton">
+                    <a
+                      href="https://www.appcreator24.com/app2694174-isnvot"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button>Download App</button>
+                    </a>
+                    <button onClick={handleSignout}>Logout</button>
+                  </div>
                 )}
-                {!open && <button onClick={handleSignout}>Logout</button>}
               </ul>
             </nav>
           </>
@@ -93,16 +95,18 @@ function Navbar() {
                   {claims.matricNumber && (
                     <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                   )}
-                  {!open && (
-                    <a
-                      href="https://www.appcreator24.com/app2694174-isnvot"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <button>Download App</button>
-                    </a>
+                  {open && (
+                    <div className="aButton">
+                      <a
+                        href="https://www.appcreator24.com/app2694174-isnvot"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <button>Download App</button>
+                      </a>
+                      <button onClick={handleSignout}>Logout</button>
+                    </div>
                   )}
-                  {open && <button onClick={handleSignout}>Logout</button>}
                 </ul>
               </nav>
             </>

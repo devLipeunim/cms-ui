@@ -7,6 +7,13 @@ import Swal from "sweetalert2";
 import emptyFolder from "./assets/empty-folder.svg";
 import "./index.css";
 import "./timetable.css";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
 
 //Material Ui imports
 import PropTypes from "prop-types";
@@ -212,8 +219,8 @@ const Updated = () => {
   const [venues, setVenues] = useState([]);
   const [title, setTitle] = useState("");
   const [course, setCourse] = useState("");
-  const [lecturer, setLecturer] = useState("");
-  const [astLecturer, setAstLecturer] = useState("");
+  const [lecturer, setLecturer] = useState([]);
+  const [astLecturer, setAstLecturer] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [finishTime, setFinishTime] = useState("");
   const [day, setDay] = useState("");
@@ -264,8 +271,8 @@ const Updated = () => {
 
   const clearForm = () => {
     setCourse("");
-    setLecturer("");
-    setAstLecturer("");
+    setLecturer([]);
+    setAstLecturer([]);
     setDay("");
     setStartTime("");
     setFinishTime("");
@@ -599,6 +606,35 @@ const Updated = () => {
     console.log(updatedAllocatedTimetable);
   };
 
+  const names = [
+    "Dr. Ayinla",
+    "Dr. Woods",
+    "Dr. HTML",
+    "Dr. php",
+    "Dr. C++",
+    "Dr. Python",
+    "Dr. Machine Learning",
+  ];
+  // const [personName, setLecturer] = useState([]);
+  const handleChangeLecturer = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setLecturer(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+  const handleChangeAtLecturer = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setAstLecturer(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   return (
     <div className="container_2">
       <Navbar />
@@ -685,9 +721,22 @@ const Updated = () => {
                 </div>
               )}
               {value == 0 && (
-                <div className="timetable__form-wrapper">
+                <div className="timetable__form-wrapper-mui">
                   <label htmlFor="">Lecturer</label>
-                  <select
+                  <Select
+                    multiple
+                    value={lecturer}
+                    onChange={handleChangeLecturer}
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {names.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox checked={lecturer.indexOf(name) > -1} />
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {/* <select
                     value={lecturer}
                     onChange={(e) => {
                       setLecturer(e.target.value);
@@ -701,20 +750,36 @@ const Updated = () => {
                         {course}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
                 </div>
               )}
               {value == 0 && (
-                <div className="timetable__form-wrapper">
+                <div className="timetable__form-wrapper-mui">
                   <label htmlFor="">Assisting Staff</label>
-                  <input
-                    type="text"
+                  <Select
+                    multiple
                     value={astLecturer}
-                    onChange={(e) => {
-                      setAstLecturer(e.target.value);
-                    }}
-                  />
+                    onChange={handleChangeAtLecturer}
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {names.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox checked={astLecturer.indexOf(name) > -1} />
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
+                // <div className="timetable__form-wrapper">
+                //   <label htmlFor="">Assisting Staff</label>
+                //   <input
+                //     type="text"
+                //     value={astLecturer}
+                //     onChange={(e) => {
+                //       setAstLecturer(e.target.value);
+                //     }}
+                //   />
+                // </div>
               )}
 
               <div className="timetable__form-wrapper">
