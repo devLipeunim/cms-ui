@@ -15,6 +15,7 @@ const Students = () => {
       })
       .then((data) => {
         setTimetable(data.data);
+        console.log(data.data)
       });
   }, []);
 
@@ -96,7 +97,7 @@ const Students = () => {
                   }}
                   className="timetable"
                 >
-                  <thead>
+                  {element.type === 'Examination/Test' ?( <thead>
                     <tr>
                       <th
                         style={{
@@ -162,8 +163,101 @@ const Students = () => {
                         Venue
                       </th>
                     </tr>
-                  </thead>
-                  <tbody>
+                  </thead>): (<thead>
+                <tr>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    Day
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    8am-9am
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    9am-10am
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    10am-11am
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    11am-12pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    12pm-1pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    1pm-2pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    2pm-3pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    3pm-4pm
+                  </th>
+                  <th
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  >
+                    4pm-5pm
+                  </th>
+                </tr>
+                         </thead>)}
+                 { element.type === 'Examination/Test' ?( <tbody>
                     {element.courses.map((course, index) => (
                       <tr key={index}>
                         {index === 0 ||
@@ -215,7 +309,29 @@ const Students = () => {
                         </td>
                       </tr>
                     ))}
-                  </tbody>
+                  </tbody>):(<tbody>
+              {days.map((day) => (
+                <tr key={day}>
+                  <td>{day}</td>
+                  {timeFrames.map((timeFrame) => (
+                    <td key={timeFrame}>
+                      {element.courses
+                        .filter(
+                          (row) =>
+                            row.day === day &&
+                            row.start_time <= timeFrame &&
+                            row.end_time > timeFrame
+                        )
+                        .map((row) => (
+                          <div
+                            key={row.course}
+                          >{`${row.course}, (${row.venue})`}</div>
+                        ))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>) }
                 </table>
                 <button
                   onClick={() => {
