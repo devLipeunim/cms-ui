@@ -56,7 +56,7 @@ function Navbar() {
                   <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                 )}
                 {!open && (
-                  <div className="aButton">
+                  <div className="aButton2">
                     <a
                       href="https://www.appcreator24.com/app2694174-isnvot"
                       target="_blank"
@@ -96,7 +96,7 @@ function Navbar() {
                     <li onClick={() => navigate("/cgpa")}>Calculate CGPA</li>
                   )}
                   {open && (
-                    <div className="aButton">
+                    <div className="aButton2">
                       <a
                         href="https://www.appcreator24.com/app2694174-isnvot"
                         target="_blank"
