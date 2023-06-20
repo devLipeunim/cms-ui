@@ -641,7 +641,7 @@ const Updated = () => {
   return (
     <div className="container_2">
       <Navbar />
-      <h1 style={{ marginTop: "50px" }}>
+      <h1 style={{ marginTop: "30px" }}>
         Welcome To The Course Management System!
       </h1>
       <div className="details">
@@ -890,12 +890,12 @@ const Updated = () => {
                 setShowForm(true);
               }}
             >
-              <h4>create a new Timetable +</h4>
+              <h4><b>create a new Timetable +</b></h4>
             </div>
             {courseData.map((course, index) => (
               <div className="timetable__grid-card" key={index}>
                 <div>
-                  <h2>{course.title}</h2>
+                  <h3>{course.title}</h3>
                   <div className="timetable__form-buttonDiv">
                     <button
                       onClick={() => {

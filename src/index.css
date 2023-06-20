@@ -34,7 +34,7 @@ body {
 /* CSS for main heading */
 h1 {
   font-size: 3rem;
-  margin-top: 1rem;
+  margin-top: 30px;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -63,7 +63,7 @@ h4 {
 }
 
 .container_2 {
-  margin-top: 100px;
+  margin-top: 95px;
   padding: 20px;
   text-align: center;
 }
@@ -112,9 +112,9 @@ button:hover {
 .aButton {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 
 .container {
@@ -189,7 +189,13 @@ label {
   width: 90px;
   overflow: hidden;
 }
+@media (max-width: 768px){
+  .uploadFiles input {
+    width: 105px;
+  }
+}
 .uploadFiles {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
