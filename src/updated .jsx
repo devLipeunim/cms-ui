@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import ProgramUx from "./Program_ux";
 import ProgramCodes from "./Program_codes";
+import CourseUpload from "./UploadCourses";
+import UploadAsstLecturers from "./UploadAsstLecturers";
+import UploadLecturers from "./UploadLecturer";
 import Navbar from "./Navbar";
 import Swal from "sweetalert2";
 import emptyFolder from "./assets/empty-folder.svg";
@@ -642,8 +645,9 @@ const Updated = () => {
         Welcome To The Course Management System!
       </h1>
       <div className="details">
-        <ProgramUx />
-        <ProgramCodes />
+        <CourseUpload />
+        <UploadLecturers />
+        <UploadAsstLecturers />
       </div>
 
       <div className="timetable__container">

@@ -55,6 +55,13 @@ h3 {
   text-align: center;
 }
 
+h4 {
+  font-size: 1.4rem;
+  margin-top: .5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
 .container_2 {
   margin-top: 100px;
   padding: 20px;
@@ -86,7 +93,7 @@ o .timetable {
 
 button {
   margin-top: 12px;
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: indigo;
   color: white;
   border: none;
@@ -94,7 +101,7 @@ button {
   cursor: pointer;
 }
 
-.tableButton{
+.tableButton {
   margin-top: 2px;
 }
 
@@ -129,8 +136,7 @@ header {
   z-index: 4;
 }
 
-
- header.active {
+header.active {
   top: 0;
   display: flex;
   justify-content: space-between;
@@ -175,10 +181,20 @@ label {
 }
 
 .courseForm input:focus,
-.courseForm select:focus{
+.courseForm select:focus {
   outline: none;
 }
 
+.uploadFiles input {
+  width: 90px;
+  overflow: hidden;
+}
+.uploadFiles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 /* CSS for Add Venue button */
 .link-button {
   font-size: 1.5rem;
@@ -398,17 +414,16 @@ label {
   h3 {
     font-size: 1.5rem;
   }
-
 }
-@media (max-width: 990px){
-     header .container{
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: flex-start;
-       }
-       header.active{
-          align-items: flex-start;
-       }
+@media (max-width: 990px) {
+  header .container {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  header.active {
+    align-items: flex-start;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -421,7 +436,7 @@ label {
   /* .container {
     max-width: 980px;
   } */
-/* 
+  /* 
   header {
     top: -120px;
   } */
@@ -488,5 +503,3 @@ label {
     top: 1550px;
   }
 }
-
-
