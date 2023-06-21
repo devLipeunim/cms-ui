@@ -37,7 +37,7 @@ const Students = () => {
             setTimetable(data.data);
             Swal.fire({
               title: "Success!",
-              text: `Here is the timetabel for ${department} department`,
+              text: `Here is the timetable for ${department} department`,
               icon: "success",
               confirmButtonText: "Close",
             });
