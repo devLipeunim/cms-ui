@@ -58,9 +58,10 @@ function Navbar() {
                 {!open && (
                   <div className="aButton2">
                     <a
-                      href="https://www.appcreator24.com/app2694174-isnvot"
+                      download=""
+                      href="./UI-CMS.apk"
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener"
                     >
                       <button>Download App</button>
                     </a>
@@ -98,9 +99,10 @@ function Navbar() {
                   {open && (
                     <div className="aButton2">
                       <a
-                        href="https://www.appcreator24.com/app2694174-isnvot"
+                        download=""
+                        href="./UI-CMS.apk"
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="noopener"
                       >
                         <button>Download App</button>
                       </a>
