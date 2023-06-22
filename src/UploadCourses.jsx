@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 const BaseUrl = "https://cms-api-o973.onrender.com";
+let claims = JSON.parse(localStorage.getItem("claims"));
 const CourseUpload = () => {
   const [file, setFile] = useState(null);
   const [uploadedcourses, setUploadedCourses] = useState([]);
@@ -25,7 +26,7 @@ const CourseUpload = () => {
   const handleSubmitUpload = (event) => {
     event.preventDefault();
      let formatedCourses = uploadedcourses.map((course) => {
-          return {name: course}
+          return {name: course, department:claims.department}
      })
      let payload ={
           courses:formatedCourses

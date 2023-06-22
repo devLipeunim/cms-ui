@@ -258,6 +258,24 @@ const Updated = () => {
         setCourseData(data.data);
       });
   }, []);
+//   useEffect(() => {
+//     fetch(`${BaseUrl}/api/v1/lecturers/?department=${claims.department}`)
+//       .then((res) => {
+//         return res.json();
+//       })
+//       .then((data) => {
+//           setLecturer(data.data);
+//       });
+//   }, []);
+//   useEffect(() => {
+//     fetch(`${BaseUrl}/api/v1/courses/?department=${claims.department}`)
+//       .then((res) => {
+//         return res.json();
+//       })
+//       .then((data) => {
+//           setCourse(data.data);
+//       });
+//   }, []);
 
   // Handler for updating course data
   const handleCourseChange = (index, field, value) => {
